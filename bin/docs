@@ -1,0 +1,5 @@
+#!/bin/sh
+
+echo "[smangler] Building docs, please wait..."
+
+clojure -A:docs
