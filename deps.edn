@@ -43,10 +43,16 @@
                                     io.aviso/pretty                 {:mvn/version "0.1.37"}}
                        :main-opts ["-m" "smangler.rebel.main"]}}
 
- :codox {:output-path "docs"
-         :source-uri "https://github.com/siefca/smangler/{version}/{filepath}#L{line}"
+ :codox {
+         :name        "smangler"
+         :description "String mangling library for Clojure"
+         :license     "Copyright"
+         :package     io.randomseed.smangler
+         :version     "master"
+         :output-path "docs"
+         :source-uri "https://bitbucket.org/siefca/smangler/src/{version}/{filepath}#lines-{line}"
          :metadata {:doc/format :markdown}
          :themes [:default
                   [:klipse
-                   {:klipse/external-libs "https://raw.githubusercontent.com/my_user/my_repo/master/src/"
-                    :klipse/require-statement "(ns my.test (:require [my_repo.my_ns :as my_ns :refer [my_func]]))"}]]}}
+                   {:klipse/external-libs "https://bitbucket.org/siefca/smangler/raw/{version}"
+                    :klipse/require-statement "(ns smangler.test (:require [smangler.core :as strm]]))"}]]}}
