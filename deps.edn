@@ -24,7 +24,7 @@
                   :extra-paths ["aliases/codox"]
                   :extra-deps {org.clojure/tools.deps.alpha     {:mvn/version "0.7.527"}
                                codox                            {:mvn/version "0.10.7"}
-                               viebel/codox-klipse-theme        {:mvn/version "0.0.5"}}
+                               codox-theme-rdash                {:mvn/version "0.1.2"}}
                   :main-opts ["-m" "smangler.codox.main"]}
 
            :dev-nrepl {
@@ -48,11 +48,9 @@
          :description "String mangling library for Clojure"
          :license     "Copyright"
          :package     io.randomseed.smangler
-         :version     "master"
+         :version     "1.0.0"
          :output-path "docs"
-         :source-uri "https://bitbucket.org/siefca/smangler/src/{version}/{filepath}#lines-{line}"
+         :source-uri "https://github.com/randomseed-io/smangler/blob/{version}/{filepath}#L{line}"
          :metadata {:doc/format :markdown}
          :themes [:default
-                  [:klipse
-                   {:klipse/external-libs "https://bitbucket.org/siefca/smangler/raw/{version}"
-                    :klipse/require-statement "(ns smangler.test (:require [smangler.core :as strm]]))"}]]}}
+                  [:rdash]]}}
