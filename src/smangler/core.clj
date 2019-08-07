@@ -12,13 +12,15 @@
 
 ;; Basic specs.
 
+(s/def ::empty-seq
+  (s/and seq? empty?))
+
 (s/def ::nothing
-  (s/or :nil   nil?
-        :empty empty?))
+  #(or (nil? %)
+       (and (seq? %) (empty? %))))
 
 (s/def ::phrase
-  (s/or :nothing nil?
-        :words   string?))
+  (s/nilable string?))
 
 (s/def ::character
   char?)
@@ -32,12 +34,16 @@
 (s/def ::char-matcher
   (s/fspec :args (s/cat :v ::character)
            :ret  (s/or  :character ::character
-                        :nothing   ::nothing)))
+                        :nothing   ::nothing)
+           :fn   #(let [r (second (:ret %))
+                        v (:v (:args %))]
+                    (or (= r v) (s/valid? ::nothing r)))))
 
+(defmsg ::empty-seq    "should be an empty sequence")
 (defmsg ::l-character  "should be most-left character")
 (defmsg ::r-character  "should be most-right character")
 (defmsg ::phrase       "should be a string or nil")
-(defmsg ::nothing      "should be an empty collection or nil")
+(defmsg ::nothing      "should be an empty sequence or nil")
 (defmsg ::char-matcher "should be a function taking a character and returning it or nothing")
 
 ;; Functions' definitions.
