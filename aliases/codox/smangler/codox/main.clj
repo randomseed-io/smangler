@@ -1,10 +1,11 @@
 (ns smangler.codox.main
-  (:require [codox.main                      :as   c]
-            [clojure.java.io                 :as  io]
-            [clojure.edn                     :as edn]
-            [clojure.tools.deps.alpha.reader :as   r]
-            [clojure.tools.deps.alpha        :as   d]
-            [clojure.string                  :as str]))
+  (:require [codox.main                      :as       c]
+            [clojure.java.io                 :as      io]
+            [clojure.edn                     :as     edn]
+            [clojure.tools.deps.alpha.reader :as       r]
+            [clojure.tools.deps.alpha        :as       d]
+            [specviz.core                    :as specviz]
+            [clojure.string                  :as     str]))
 
 (defn- read-deps
   []
