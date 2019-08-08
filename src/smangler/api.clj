@@ -314,11 +314,11 @@
 
   (trim-both
     [char-pairs ^clojure.lang.ISeq w]
-    (or (sc/trim-both-with-pairs char-pairs (to-str w)) (to-str w)))
+    (or (sc/trim-both char-pairs (to-str w)) (to-str w)))
 
   (trim-both-recur
     [char-pairs ^clojure.lang.ISeq w]
-    (part-caller-iterate sc/trim-both-with-pairs char-pairs w))
+    (part-caller-iterate sc/trim-both char-pairs w))
 
   clojure.lang.IFn
 
