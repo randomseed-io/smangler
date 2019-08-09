@@ -7,7 +7,7 @@
     smangler.spec
 
   (:require [clojure.spec.alpha  :as              s]
-            [expound.alpha       :refer    [defmsg]]
+            [expound.alpha       :as             ex]
             [orchestra.core      :refer [defn-spec]]))
 
 (def ^{:added   "1.0.0"
@@ -40,15 +40,19 @@
   (s/fspec :args (s/cat :v ::character)
            :ret  any?))
 
-(defmsg ::string              "should be a string")
-(defmsg ::non-empty-string    "should be a non-empty string")
-(defmsg ::empty-seq           "should be an empty sequence")
-(defmsg ::beginning-character "should be a character (to match first character)")
-(defmsg ::ending-character    "should be a character (to match last character)")
-(defmsg ::nil                 "should be nil")
-(defmsg ::lazy-seq-strings    "should be a non-empty, lazy sequence of strings")
-(defmsg ::lazy-seq-ne-strings "should be a non-empty, lazy sequence of non-empty strings")
-(defmsg ::character           "should be a character")
-(defmsg ::phrase              "should be a string or nil")
-(defmsg ::char-matcher        "should be a function taking a character and returning a character or nothing")
-(defmsg ::phrase-splitter     "should be a function taking a character used to partition a string")
+(defmacro should-be
+  [k error-message]
+  `(ex/defmsg ~k (str "should be " ~error-message)))
+
+(should-be ::string              "a string")
+(should-be ::non-empty-string    "a non-empty string")
+(should-be ::empty-seq           "an empty sequence")
+(should-be ::beginning-character "a character (to match first character)")
+(should-be ::ending-character    "a character (to match last character)")
+(should-be ::nil                 "nil")
+(should-be ::lazy-seq-strings    "a non-empty, lazy sequence of strings")
+(should-be ::lazy-seq-ne-strings "a non-empty, lazy sequence of non-empty strings")
+(should-be ::character           "a character")
+(should-be ::phrase              "a string or nil")
+(should-be ::char-matcher        "a function taking a character and returning a character or nothing")
+(should-be ::phrase-splitter     "a function taking a character used to partition a string")
