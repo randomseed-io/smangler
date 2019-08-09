@@ -65,12 +65,15 @@
           (reductions concat)
           (map (partial apply str))))))
 
-(defn- for-suffixes
-  [^clojure.lang.ISeq s]
-  "Generates a sequence of all possible suffixes."
-  {:added "1.0.0"
-   :tag clojure.lang.ISeq}
-  (map #(apply concat %) (take-while seq (iterate rest s))))
+(def ^{:doc     "Generates all possible suffixes from the given sequence of objects"
+       :added   "1.0.0"
+       :private true
+       :arglists '([^clojure.lang.ISeq s])
+       :tag     clojure.lang.ISeq}
+  for-suffixes
+  (comp (partial map (partial apply concat))
+        (comp (partial take-while seq)
+              (partial iterate rest))))
 
 (defn-spec all-subs ::s/non-empty-strings
   {:added "1.0.0"
