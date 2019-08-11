@@ -94,5 +94,10 @@
    (sc/all-suffixes (->part-pred pred) (->str w))))
 
 (defn all-subs
-  [^String w]
-  (sc/all-subs (->str w)))
+  {:added "1.0.0"
+   :tag clojure.lang.LazySeq}
+  ([^String w]
+   (sc/all-subs (->str w)))
+  ([^clojure.lang.IFn pred
+    ^String w]
+   (sc/all-subs (->part-pred pred) (->str w))))
