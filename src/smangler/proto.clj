@@ -61,7 +61,7 @@
 
   Character
 
-  (->char-pred [p] #(and (= p %)))
+  (->char-pred [p] #(and (= p %) %))
   (->part-pred [p] #(= p %))
 
   Number
