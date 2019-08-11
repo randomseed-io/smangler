@@ -24,6 +24,7 @@
 (s/def ::beginning-character char?)
 (s/def ::ending-character    char?)
 (s/def ::nothing             (s/or :empty  ::empty-seq :nil ::nil))
+(s/def ::false               false?)
 (s/def ::phrase              (s/or :string ::string    :nil ::nil))
 (s/def ::lazy-seq-strings    (s/coll-of ::string :min-count 1 :kind? ::lazy-seq))
 (s/def ::lazy-seq-ne-strings (s/coll-of ::non-empty-string :min-count 1 :kind? ::lazy-seq))
@@ -34,7 +35,8 @@
 (s/def ::char-matcher
   (s/fspec :args (s/cat :v ::character)
            :ret  (s/or  :character ::character
-                        :nothing   ::nothing)))
+                        :nothing   ::nothing
+                        :false     ::false)))
 
 (s/def ::phrase-splitter
   (s/fspec :args (s/cat :v ::character)
@@ -50,6 +52,7 @@
 (should-be ::beginning-character "a character (to match first character)")
 (should-be ::ending-character    "a character (to match last character)")
 (should-be ::nil                 "nil")
+(should-be ::false               "false")
 (should-be ::lazy-seq-strings    "a non-empty, lazy sequence of strings")
 (should-be ::lazy-seq-ne-strings "a non-empty, lazy sequence of non-empty strings")
 (should-be ::character           "a character")
