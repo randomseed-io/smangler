@@ -18,21 +18,18 @@
   ([^clojure.lang.IFn  f
     ^clojure.lang.ISeq w]
    (when (some? w)
-     (if-some [o (seq (take-while seq (iterate f w)))]
-       o (take-while some? (cons w nil)))))
+     (seq (take-while some? (iterate f w)))))
   ([^clojure.lang.IFn     f
     ^clojure.lang.IFn  pred
     ^clojure.lang.ISeq    w]
    (when (some? w)
-     (if-some [o (seq (take-while seq (iterate (partial f pred) w)))]
-       o (take-while some? (cons w nil)))))
+     (seq (take-while some? (iterate (partial f pred) w)))))
   ([^clojure.lang.IFn        f
     ^java.lang.Character start
     ^java.lang.Character   end
     ^clojure.lang.ISeq       w]
    (when (some? w)
-     (if-some [o (seq (take-while seq (iterate (partial f start end) w)))]
-       o (take-while some? (cons w nil))))))
+     (seq (take-while some? (iterate (partial f start end) w))))))
 
 (defmacro some-or [f & more]
   `(let [v# ~(last more)]
