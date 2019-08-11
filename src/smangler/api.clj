@@ -18,18 +18,18 @@
   ([^clojure.lang.IFn  f
     ^clojure.lang.ISeq w]
    (when (some? w)
-     (seq (take-while some? (iterate f w)))))
+     (take-while some? (iterate f w))))
   ([^clojure.lang.IFn     f
     ^clojure.lang.IFn  pred
     ^clojure.lang.ISeq    w]
    (when (some? w)
-     (seq (take-while some? (iterate (partial f pred) w)))))
+     (take-while some? (iterate (partial f pred) w))))
   ([^clojure.lang.IFn        f
     ^java.lang.Character start
     ^java.lang.Character   end
     ^clojure.lang.ISeq       w]
    (when (some? w)
-     (seq (take-while some? (iterate (partial f start end) w))))))
+     (take-while some? (iterate (partial f start end) w)))))
 
 (defmacro some-or [f & more]
   `(let [v# ~(last more)]
@@ -52,6 +52,8 @@
      (some-or sc/trim-both start end w))))
 
 (defn trim-both-recur
+  {:added "1.0.0"
+   :tag clojure.lang.LazySeq}
   ([^String w]
    (let [w (->str w)]
      (part-caller-iterate sc/trim-both w)))
