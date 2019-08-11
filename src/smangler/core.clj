@@ -34,7 +34,7 @@
 
 (defn-spec all-suffixes ::s/non-empty-strings
   {:added "1.0.0"
-   :tag clojure.lang.ISeq}
+   :tag clojure.lang.LazySeq}
 
   ([^String p ::s/phrase]
    (when (seq p)
@@ -51,7 +51,7 @@
 
 (defn-spec all-prefixes ::s/non-empty-strings
   {:added "1.0.0"
-   :tag clojure.lang.ISeq}
+   :tag clojure.lang.LazySeq}
 
   ([^String p ::s/phrase]
    (when-let [p (seq p)]
@@ -68,7 +68,7 @@
 (defn- for-suffixes
   "Generates all possible suffixes from the given sequence of objects"
   {:added "1.0.0"
-   :tag clojure.lang.ISeq}
+   :tag clojure.lang.LazySeq}
   [^clojure.lang.IFn pred]
   (comp
    (comp (partial map (partial apply concat))
@@ -78,7 +78,7 @@
 
 (defn-spec all-subs ::s/non-empty-strings
   {:added "1.0.0"
-   :tag clojure.lang.ISeq}
+   :tag clojure.lang.LazySeq}
 
   ([^clojure.lang.IFn pred ::s/phrase-splitter
     ^java.lang.String p    ::s/phrase]
