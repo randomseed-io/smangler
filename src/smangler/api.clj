@@ -74,7 +74,7 @@
    (take 2 (trim-both-recur w)))
   ([^clojure.lang.IFn pred
     ^String              w]
-   (take 2 (trim-both-recur w)))
+   (take 2 (trim-both-recur pred w)))
   ([^Character start
     ^Character   end
     ^String        w]
