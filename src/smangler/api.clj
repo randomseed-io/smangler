@@ -13,6 +13,8 @@
             [orchestra.core  :refer [defn-spec]]))
 
 (defn- part-caller-iterate
+  {:added "1.0.0"
+   :tag clojure.lang.LazySeq}
   ([^clojure.lang.IFn  f
     ^clojure.lang.ISeq w]
    (when (some? w)
@@ -37,6 +39,8 @@
      (if-some [r# (~f ~@(butlast more) v#)] r# v#)))
 
 (defn trim-both
+  {:added "1.0.0"
+   :tag String}
   ([^String w]
    (let [w (->str w)]
      (some-or sc/trim-both w)))
@@ -68,7 +72,7 @@
   "Takes a string and returns a sequence containing the string and optionally its
   version with first and last character removed if they were the same character."
   {:added "1.0.0"
-   :tag clojure.lang.ISeq}
+   :tag clojure.lang.LazySeq}
   ([^String w]
    (take 2 (trim-both-recur w)))
   ([^clojure.lang.IFn pred
@@ -80,6 +84,8 @@
    (take 2 (trim-both-recur start end w))))
 
 (defn all-prefixes
+  {:added "1.0.0"
+   :tag clojure.lang.LazySeq}
   ([^String w]
    (sc/all-prefixes (->str w)))
   ([^clojure.lang.IFn pred
@@ -87,6 +93,8 @@
    (sc/all-prefixes (->part-pred pred) (->str w))))
 
 (defn all-suffixes
+  {:added "1.0.0"
+   :tag clojure.lang.LazySeq}
   ([^String w]
    (sc/all-suffixes (->str w)))
   ([^clojure.lang.IFn pred
