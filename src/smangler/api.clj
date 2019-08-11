@@ -32,22 +32,23 @@
      (if-some [o (seq (take-while seq (iterate (partial f start end) w)))]
        o (take-while some? (cons w nil))))))
 
-(defn- some-or [v a]
-  (if (nil? v) a v))
+(defmacro some-or [f & more]
+  `(let [v# ~(last more)]
+     (if-some [r# (~f ~@(butlast more) v#)] r# v#)))
 
 (defn trim-both
   ([^String w]
    (let [w (->str w)]
-     (some-or (sc/trim-both w) w)))
+     (some-or sc/trim-both w)))
   ([^clojure.lang.IFn pred
     ^String              w]
    (let [w (->str w)]
-     (some-or (sc/trim-both w (->char-pred pred)) w)))
+     (some-or sc/trim-both (->char-pred pred) w)))
   ([^Character start
     ^Character   end
     ^String        w]
    (let [w (->str w)]
-     (some-or (sc/trim-both start end w) w))))
+     (some-or sc/trim-both start end w))))
 
 (defn trim-both-recur
   ([^String w]
