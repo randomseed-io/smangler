@@ -10,9 +10,25 @@
             [orchestra.core  :refer [defn-spec]]))
 
 (defn-spec trim-both ::s/phrase
-  ""
-  {:added "1.0.0"
-   :tag java.lang.String}
+  "Takes a string and trims its first and last character if they are the
+  same. Returns new string or nil when there is nothing to trim.
+
+  When the matcher argument is used then it specifies a matching function used to
+  decide whether to trim first and last character of a string. The given function
+  should take a character and make a lookup to decide whether this character should
+  be trimmed from the beginning of a string. The returned value is then used to match
+  the last character of the same string. It should be a character (the same or
+  different as passed), nil or false. The trimming function will trim the string on
+  both ends if a value returned by this function match the last character of a string
+  and if the character supplied as a first argument to this function matches the
+  first character of a string. It's common to use a set (to match the same characters
+  on both ends) or a map (to match different characters).
+
+  When 3 arguments are given the first two should be characters used to match first
+  and last character of a trimmed string (given as third argument).
+
+  If nil is given instead of string the returned value is nil."
+  {:added "1.0.0" :tag java.lang.String}
 
   ([^String p ::s/phrase]
    (when-let [l (and (seq p) (dec (.length p)))]
