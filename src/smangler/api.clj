@@ -37,18 +37,18 @@
 (defn-spec trim-both ::s/phrase
   {:added "1.0.0" :tag String}
 
-  ([^String w ::s/phraseable]
+  ([^String w ::s/stringable]
    (let [w (->str w)]
      (some-or sc/trim-both w)))
 
   ([^clojure.lang.IFn matcher ::s/char-matchable
-    ^String w                 ::s/phraseable]
+    ^String w                 ::s/stringable]
    (let [w (->str w)]
      (some-or sc/trim-both (->char-match matcher) w)))
 
   ([^Character start ::s/beginning-character
     ^Character   end ::s/ending-character
-    ^String        w ::s/phraseable]
+    ^String        w ::s/stringable]
    (let [w (->str w)]
      (some-or sc/trim-both start end w))))
 
@@ -56,18 +56,18 @@
   {:added "1.0.0"
    :tag clojure.lang.LazySeq}
 
-  ([^String w ::s/phraseable]
+  ([^String w ::s/stringable]
    (let [w (->str w)]
      (part-caller-iterate sc/trim-both w)))
 
   ([^clojure.lang.IFn matcher ::s/char-matchable
-    ^String                 w ::s/phraseable]
+    ^String                 w ::s/stringable]
    (let [w (->str w)]
      (part-caller-iterate sc/trim-both (->char-match matcher) w)))
 
   ([^Character start ::s/beginning-character
     ^Character   end ::s/ending-character
-    ^String        w ::s/phraseable]
+    ^String        w ::s/stringable]
    (let [w (->str w)]
      (part-caller-iterate sc/trim-both start end w))))
 
@@ -77,45 +77,45 @@
   {:added "1.0.0"
    :tag clojure.lang.LazySeq}
 
-  ([^String w ::s/phraseable]
+  ([^String w ::s/stringable]
    (take 2 (trim-both-recur w)))
 
   ([^clojure.lang.IFn matcher ::s/char-matchable
-    ^String                 w ::s/phraseable]
+    ^String                 w ::s/stringable]
    (take 2 (trim-both-recur matcher w)))
 
   ([^Character start ::s/beginning-character
     ^Character   end ::s/ending-character
-    ^String        w ::s/phraseable]
+    ^String        w ::s/stringable]
    (take 2 (trim-both-recur start end w))))
 
 (defn-spec all-prefixes ::s/lazy-seq-of-ne-strings
   {:added "1.0.0"
    :tag clojure.lang.LazySeq}
 
-  ([^String w ::s/phraseable]
+  ([^String w ::s/stringable]
    (sc/all-prefixes (->str w)))
 
   ([^clojure.lang.IFn pred ::s/phrase-splittable
-    ^String              w ::s/phraseable]
+    ^String              w ::s/stringable]
    (sc/all-prefixes (->part-pred pred) (->str w))))
 
 (defn-spec all-suffixes ::s/lazy-seq-of-ne-strings
   {:added "1.0.0"
    :tag clojure.lang.LazySeq}
 
-  ([^String w ::s/phraseable]
+  ([^String w ::s/stringable]
    (sc/all-suffixes (->str w)))
 
   ([^clojure.lang.IFn pred ::s/phrase-splittable
-    ^String w              ::s/phraseable]
+    ^String w              ::s/stringable]
    (sc/all-suffixes (->part-pred pred) (->str w))))
 
 (defn-spec all-subs ::s/lazy-seq-of-ne-strings
   {:added "1.0.0"
    :tag clojure.lang.LazySeq}
-  ([^String w ::s/phraseable]
+  ([^String w ::s/stringable]
    (sc/all-subs (->str w)))
   ([^clojure.lang.IFn pred ::s/phrase-splittable
-    ^String              w ::s/phraseable]
+    ^String              w ::s/stringable]
    (sc/all-subs (->part-pred pred) (->str w))))

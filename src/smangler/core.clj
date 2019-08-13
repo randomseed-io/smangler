@@ -48,7 +48,7 @@
      (when (and (> l 0) (= (matcher (.charAt p 0)) (.charAt p l)))
        (subs p 1 l)))))
 
-(defn-spec all-suffixes ::s/non-empty-strings
+(defn-spec all-suffixes ::s/lazy-seq-of-ne-strings
   {:added "1.0.0"
    :tag clojure.lang.LazySeq}
 
@@ -65,7 +65,7 @@
           (take-while seq)
           (map #(apply str (apply concat %)))))))
 
-(defn-spec all-prefixes ::s/non-empty-strings
+(defn-spec all-prefixes ::s/lazy-seq-of-ne-strings
   {:added "1.0.0"
    :tag clojure.lang.LazySeq}
 
@@ -92,7 +92,7 @@
                (partial iterate rest)))
    (partial partition-by pred)))
 
-(defn-spec all-subs ::s/non-empty-strings
+(defn-spec all-subs ::s/lazy-seq-of-ne-strings
   {:added "1.0.0"
    :tag clojure.lang.LazySeq}
 

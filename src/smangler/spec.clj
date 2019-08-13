@@ -11,6 +11,8 @@
             [smangler.proto      :as              p]
             [orchestra.core      :refer [defn-spec]]))
 
+;; Basic specs.
+
 (s/def ::empty-seq               (s/and seq? empty?))
 (s/def ::lazy-seq                (partial instance? clojure.lang.LazySeq))
 (s/def ::string                  string?)
@@ -22,17 +24,21 @@
 (s/def ::false                   false?)
 (s/def ::phrase                  (s/nilable ::string))
 (s/def ::character-pairs         (s/map-of ::character ::character))
-(s/def ::char-sequence           #(instance? CharSequence %))
-(s/def ::characters              (s/or :char-sequence ::char-sequence :char-coll    (s/coll-of ::character)))
+(s/def ::character-set           (s/coll-of ::character :kind set?))
+(s/def ::char-sequence           (partial instance? CharSequence))
+(s/def ::characters              (s/or :char-sequence ::char-sequence :char-coll (s/coll-of ::character)))
 (s/def ::lazy-seq-of-strings     (s/nilable (s/coll-of ::string :min-count 1 :kind? ::lazy-seq)))
 (s/def ::one-or-two-strings      (s/nilable (s/coll-of ::string :min-count 1 :max-count 2 :kind ::lazy-seq)))
 (s/def ::lazy-seq-of-ne-strings  (s/nilable (s/coll-of ::non-empty-string :min-count 1 :kind? ::lazy-seq)))
 (s/def ::nil                     nil?)
 (s/def ::some                    some?)
-(s/def ::stringable              #(satisfies? p/Stringable %))
-(s/def ::predicative             #(satisfies? p/Predicative %))
-(s/def ::phraseable              (s/nilable ::stringable))
+(s/def ::stringable              (s/nilable (partial satisfies? p/Stringable)))
+(s/def ::predicative             (partial satisfies? p/Predicative))
 (s/def ::number                  number?)
+(s/def ::plain-matcher           fn?)
+(s/def ::plain-splitter          fn?)
+
+;; Function specs (matcher and partitioning predicate).
 
 (s/def ::char-matcher
   (s/fspec :args (s/cat :v ::character)
@@ -44,40 +50,43 @@
                   (s/or
                    :nil       #(= :nil       (first (:ret %)))
                    :false     #(= :false     (first (:ret %)))
-                   :character (s/and
-                               #(= :character (first (:ret %)))
-                               #(= (:v (:args %)) (second (:ret %))))))))
+                   :character #(= :character (first (:ret %)))))))
 
 (s/def ::phrase-splitter
   (s/fspec :args (s/cat :v ::character)
            :ret  any?
            :fn   #(s/valid? ::character (:args :v %))))
 
+;; Compound specs for either a function or an object that can be converted to a function.
+
 (s/def ::convertable-to-predicate
   (s/or
    :character       ::character
-   :characters      ::characters
+   :char-sequence   ::char-sequence
    :character-pairs ::character-pairs
-   :number          ::number))
+   :number          ::number
+   :collection      (s/coll-of (s/or :character     ::character
+                                     :number        ::number
+                                     :char-sequence ::char-sequence))))
 
-(s/def ::predicate-convertables
-  (s/coll-of ::convertable-to-predicate))
+(s/def ::char-matcher-only    (s/and ::char-matcher    ::plain-matcher))
+(s/def ::phrase-splitter-only (s/and ::phrase-splitter ::plain-splitter))
 
 (s/def ::char-matchable
   (s/and
    ::predicative
    (s/or :nil          ::nil
          :convertable  ::convertable-to-predicate
-         :convertables ::predicate-convertables
-         :function     ::char-matcher)))
+         :function     ::char-matcher-only)))
 
 (s/def ::phrase-splittable
   (s/and
    ::predicative
    (s/or :nil          ::nil
          :convertable  ::convertable-to-predicate
-         :convertables ::predicate-convertables
-         :function     ::phrase-splitter)))
+         :function     ::phrase-splitter-only)))
+
+;; Messaging (handled by Expound).
 
 (defmacro should-be
   [k error-message]
@@ -89,6 +98,7 @@
 
 (should-be ::string                   "a string")
 (should-be ::stringable               "an object that can be converted to string")
+(should-be ::char-sequence            "a sequence of characters (string and similar)")
 (should-be ::non-empty-string         "a non-empty string")
 (should-be ::empty-seq                "an empty sequence")
 (should-be ::beginning-character      "a character (to match first character)")
@@ -101,11 +111,14 @@
 (should-be ::characters               "a sequence of characters (like string)")
 (should-be ::character-pairs          "a map of characters (to match first with last)")
 (should-be ::phrase                   "a string or nil")
-(should-be ::phraseable               "an object that can be converted to string or nil")
 (should-be ::digits                   "a collection of digits")
 (should-be ::number                   "a number")
 (should-be ::predicative              "an object that can be converted to a predicate function")
-(should-be ::char-matcher             "a function taking a character and returning it or nothing")
+(should-be ::char-matcher             "a function matching a character and returning it or nothing")
 (should-be ::phrase-splitter          "a function taking a character used to partition a string")
+(should-be ::char-matcher-only        "a function matching a character and returning it or nothing")
+(should-be ::phrase-splitter-only     "a function taking a character used to partition a string")
+(should-be ::plain-matcher            "a function matching a character and returning it or nothing")
+(should-be ::plain-splitter           "a function taking a character used to partition a string")
 (should-be ::convertable-to-predicate "an object that can be converted to a matcher or a predicate")
-(should-be ::predicate-convertables   "collection of objects that can be converted to a matcher or a predicate")
+(should-be ::predicate-convertables   "a collection of objects that can be converted to a matcher or a predicate")
