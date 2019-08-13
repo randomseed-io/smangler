@@ -31,7 +31,7 @@
      (take-while some? (iterate (partial f start end) w)))))
 
 (defmacro some-or [f & more]
-  `(let [v# ~(last more)]
+  `(when-some [v# ~(last more)]
      (if-some [r# (~f ~@(butlast more) v#)] r# v#)))
 
 (defn-spec trim-both ::s/phrase
