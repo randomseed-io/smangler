@@ -13,17 +13,16 @@
             [orchestra.core  :refer [defn-spec]]))
 
 (defn- part-caller-iterate
-  {:added "1.0.0"
-   :tag clojure.lang.LazySeq}
+  {:added "1.0.0" :tag clojure.lang.LazySeq}
   ([^clojure.lang.IFn  f
     ^clojure.lang.ISeq w]
    (when (some? w)
      (take-while some? (iterate f w))))
-  ([^clojure.lang.IFn     f
-    ^clojure.lang.IFn  pred
-    ^clojure.lang.ISeq    w]
+  ([^clojure.lang.IFn       f
+    ^clojure.lang.IFn matcher
+    ^clojure.lang.ISeq      w]
    (when (some? w)
-     (take-while some? (iterate (partial f pred) w))))
+     (take-while some? (iterate (partial f matcher) w))))
   ([^clojure.lang.IFn        f
     ^java.lang.Character start
     ^java.lang.Character   end
