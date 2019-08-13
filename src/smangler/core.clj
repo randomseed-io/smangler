@@ -26,10 +26,10 @@
      (when (and (> l 0) (= (.charAt p 0) start) (= (.charAt p l) end))
        (subs p 1 l))))
 
-  ([^clojure.lang.IFn pred ::s/char-matcher
-    ^java.lang.String    p ::s/phrase]
+  ([^clojure.lang.IFn matcher ::s/char-matcher
+    ^java.lang.String       p ::s/phrase]
    (when-let [l (and (seq p) (dec (.length p)))]
-     (when (and (> l 0) (= (pred (.charAt p 0)) (.charAt p l)))
+     (when (and (> l 0) (= (matcher (.charAt p 0)) (.charAt p l)))
        (subs p 1 l)))))
 
 (defn-spec all-suffixes ::s/non-empty-strings
