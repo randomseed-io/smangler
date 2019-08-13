@@ -49,8 +49,7 @@
        (subs p 1 l)))))
 
 (defn-spec all-suffixes ::s/lazy-seq-of-ne-strings
-  {:added "1.0.0"
-   :tag clojure.lang.LazySeq}
+  {:added "1.0.0" :tag clojure.lang.LazySeq}
 
   ([^String p ::s/phrase]
    (when (seq p)
@@ -66,8 +65,7 @@
           (map #(apply str (apply concat %)))))))
 
 (defn-spec all-prefixes ::s/lazy-seq-of-ne-strings
-  {:added "1.0.0"
-   :tag clojure.lang.LazySeq}
+  {:added "1.0.0" :tag clojure.lang.LazySeq}
 
   ([^String p ::s/phrase]
    (when-let [p (seq p)]
@@ -83,8 +81,7 @@
 
 (defn- for-suffixes
   "Generates all possible suffixes from the given sequence of objects"
-  {:added "1.0.0"
-   :tag clojure.lang.LazySeq}
+  {:added "1.0.0" :tag clojure.lang.LazySeq}
   [^clojure.lang.IFn pred]
   (comp
    (comp (partial map (partial apply concat))
@@ -93,8 +90,7 @@
    (partial partition-by pred)))
 
 (defn-spec all-subs ::s/lazy-seq-of-ne-strings
-  {:added "1.0.0"
-   :tag clojure.lang.LazySeq}
+  {:added "1.0.0" :tag clojure.lang.LazySeq}
 
   ([^clojure.lang.IFn pred ::s/phrase-splitter
     ^java.lang.String p    ::s/phrase]
