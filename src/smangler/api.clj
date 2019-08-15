@@ -34,58 +34,58 @@
   `(when-some [v# ~(last more)]
      (if-some [r# (~f ~@(butlast more) v#)] r# v#)))
 
-(defn-spec trim-both ::s/phrase
+(defn-spec trim-same-once ::s/phrase
   {:added "1.0.0" :tag String}
 
   ([^String w ::s/stringable]
    (let [w (->str w)]
-     (some-or sc/trim-both w)))
+     (some-or sc/trim-same-once w)))
 
   ([^clojure.lang.IFn matcher ::s/char-matchable
     ^String w                 ::s/stringable]
    (let [w (->str w)]
-     (some-or sc/trim-both (->char-match matcher) w)))
+     (some-or sc/trim-same-once (->char-match matcher) w)))
 
   ([^Character start ::s/beginning-character
     ^Character   end ::s/ending-character
     ^String        w ::s/stringable]
    (let [w (->str w)]
-     (some-or sc/trim-both start end w))))
+     (some-or sc/trim-same-once start end w))))
 
-(defn-spec trim-both-recur ::s/lazy-seq-of-strings
+(defn-spec trim-same-seq ::s/lazy-seq-of-strings
   {:added "1.0.0" :tag clojure.lang.LazySeq}
 
   ([^String w ::s/stringable]
    (let [w (->str w)]
-     (part-caller-iterate sc/trim-both w)))
+     (part-caller-iterate sc/trim-same-once w)))
 
   ([^clojure.lang.IFn matcher ::s/char-matchable
     ^String                 w ::s/stringable]
    (let [w (->str w)]
-     (part-caller-iterate sc/trim-both (->char-match matcher) w)))
+     (part-caller-iterate sc/trim-same-once (->char-match matcher) w)))
 
   ([^Character start ::s/beginning-character
     ^Character   end ::s/ending-character
     ^String        w ::s/stringable]
    (let [w (->str w)]
-     (part-caller-iterate sc/trim-both start end w))))
+     (part-caller-iterate sc/trim-same-once start end w))))
 
-(defn-spec trim-both-with-orig ::s/one-or-two-strings
+(defn-spec trim-same-once-with-orig ::s/one-or-two-strings
   "Takes a string and returns a sequence containing the string and optionally its
   version with first and last character removed if they were the same character."
   {:added "1.0.0" :tag clojure.lang.LazySeq}
 
-  ([^String w ::s/stringable]
-   (take 2 (trim-both-recur w)))
+  ([^CharSequence w ::s/stringable]
+   (take 2 (trim-same-seq w)))
 
   ([^clojure.lang.IFn matcher ::s/char-matchable
-    ^String                 w ::s/stringable]
-   (take 2 (trim-both-recur matcher w)))
+    ^CharSequence           w ::s/stringable]
+   (take 2 (trim-same-seq matcher w)))
 
   ([^Character start ::s/beginning-character
     ^Character   end ::s/ending-character
-    ^String        w ::s/stringable]
-   (take 2 (trim-both-recur start end w))))
+    ^CharSequence  w ::s/stringable]
+   (take 2 (trim-same-seq start end w))))
 
 (defn-spec all-prefixes ::s/lazy-seq-of-ne-strings
   {:added "1.0.0" :tag clojure.lang.LazySeq}
