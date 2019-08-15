@@ -2,37 +2,17 @@
 
     ^{:doc    "smangler library, API."
       :author "Paweł Wilk"
-      :added  "1.0.0"}
+      :added  "1.0.0"
+      :no-doc true}
 
     smangler.api
 
   (:require [clojure.string  :as            str]
             [smangler.core   :as             sc]
             [smangler.spec   :as              s]
+            [smangler.util   :refer        :all]
             [smangler.proto  :refer        :all]
             [orchestra.core  :refer [defn-spec]]))
-
-(defn- part-caller-iterate
-  {:added "1.0.0" :tag clojure.lang.LazySeq}
-  ([^clojure.lang.IFn  f
-    ^clojure.lang.ISeq w]
-   (when (some? w)
-     (take-while some? (iterate f w))))
-  ([^clojure.lang.IFn       f
-    ^clojure.lang.IFn matcher
-    ^clojure.lang.ISeq      w]
-   (when (some? w)
-     (take-while some? (iterate (partial f matcher) w))))
-  ([^clojure.lang.IFn        f
-    ^java.lang.Character start
-    ^java.lang.Character   end
-    ^clojure.lang.ISeq       w]
-   (when (some? w)
-     (take-while some? (iterate (partial f start end) w)))))
-
-(defmacro some-or [f & more]
-  `(when-some [v# ~(last more)]
-     (if-some [r# (~f ~@(butlast more) v#)] r# v#)))
 
 (defn-spec trim-same-once ::s/phrase
   {:added "1.0.0" :tag String}
