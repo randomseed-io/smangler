@@ -20,9 +20,9 @@
            :test {
                   :extra-paths ["test"]
                   :extra-deps {org.clojure/test.check               {:mvn/version "0.10.0-alpha4"}
-                               com.cognitect/test-runner            {:git/url "https://github.com/cognitect-labs/test-runner.git"
-                                                                     :sha "209b64504cb3bd3b99ecfec7937b358a879f55c1"}}
-                  :main-opts ["-m" "cognitect.test-runner"]}
+                               lambdaisland/kaocha                  {:mvn/version "0.0-529"}}
+                  :main-opts ["-m" "kaocha.runner", "--config-file" "tests.edn"]
+                  :jvm-opts  ["-Xmx512m"]}
 
            :docs {
                   :extra-paths ["aliases/codox"]
