@@ -1,3 +1,4 @@
 #!/bin/sh
 
-clojure -A:dev:test "$@"
+test -f secrets.env && . secrets.env
+clojure -A:dev:dev-nrepl:test "$@"
