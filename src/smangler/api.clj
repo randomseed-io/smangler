@@ -2,8 +2,7 @@
 
     ^{:doc    "smangler library, API."
       :author "Paweł Wilk"
-      :added  "1.0.0"
-      :no-doc true}
+      :added  "1.0.0"}
 
     smangler.api
 
