@@ -6,14 +6,15 @@
 
     smangler.api-test
 
-  (:require [clojure.spec.alpha      :as            s]
-            [midje.sweet             :refer      :all]
-            [midje.experimental      :refer [for-all]]
-            [clojure.spec.gen.alpha  :as           sg]
-            [clojure.spec.test.alpha :as           st]
-            [orchestra.spec.test     :as           ot]
-            [expound.alpha           :as           ex]
-            [smangler.api           :refer      :all]))
+  (:require [clojure.spec.alpha            :as            s]
+            [midje.sweet                   :refer      :all]
+            [midje.experimental            :refer [for-all]]
+            [clojure.spec.gen.alpha        :as           sg]
+            [clojure.spec.test.alpha       :as           st]
+            [clojure.test.check.generators :as          gen]
+            [orchestra.spec.test           :as           ot]
+            [expound.alpha                 :as           ex]
+            [smangler.api                  :refer      :all]))
 
 (alter-var-root #'s/*explain-out*
                 (constantly
@@ -63,7 +64,14 @@
     (trim-same-once \a \b "abab") => "ba"
     (trim-same-once \b \b "bab")  => "a"
     (trim-same-once \a \a "aa")   => ""
-    (trim-same-once \b \b "bab")  => "a"))
+    (trim-same-once \b \b "bab")  => "a")
+  (fact "when it trims fuzzy strings"
+    (for-all
+     {:max-size 24, :num-tests 50}
+     [s gen/string]
+     (trim-same-once s) => (if (and (some? (second s)) (= (first s) (last s)))
+                             (apply str (butlast (rest s)))
+                             s))))
 
 (facts "about `trim-same`"
   (fact "when it returns nil for nil"
@@ -106,7 +114,17 @@
     (trim-same \a \b "abab") => "ba"
     (trim-same \b \b "bab")  => "a"
     (trim-same \a \a "aa")   => ""
-    (trim-same \b \b "bab")  => "a"))
+    (trim-same \b \b "bab")  => "a")
+  (fact "when it trims fuzzy strings"
+    (for-all
+     {:max-size 24, :num-tests 50}
+     [s gen/string]
+     (trim-same s) => (last
+                       (take-while
+                        some?
+                        (iterate #(if (and (some? (second %)) (= (first %) (last %)))
+                                    (apply str (butlast (rest %)))
+                                    nil) s))))))
 
 (facts "about `trim-same-seq`"
   (fact "when it returns nil for nil"
@@ -134,7 +152,7 @@
     (trim-same-seq nil "")       => (just [""])
     (trim-same-seq "" "")        => (just [""])
     (trim-same-seq \a \b "")     => (just [""]))
-  (fact "when it returns  atrimmed string"
+  (fact "when it returns  a trimmed string"
     (trim-same-seq "barkrab")    => (just ["barkrab", "arkra", "rkr", "k"])
     (trim-same-seq "barrab")     => (just ["barrab", "arra", "rr", ""])
     (trim-same-seq "aa")         => (just ["aa", ""])
@@ -146,7 +164,16 @@
     (trim-same-seq \a \b "abab") => (just ["abab", "ba"])
     (trim-same-seq \b \b "bab")  => (just ["bab", "a"])
     (trim-same-seq \a \a "aa")   => (just ["aa", ""])
-    (trim-same-seq \b \b "bab")  => (just ["bab", "a"])))
+    (trim-same-seq \b \b "bab")  => (just ["bab", "a"]))
+  (fact "when it trims fuzzy strings"
+    (for-all
+     {:max-size 24, :num-tests 50}
+     [s gen/string]
+     (trim-same-seq s) => (->> s
+                               (iterate #(if (and (some? (second %)) (= (first %) (last %)))
+                                           (apply str (butlast (rest %)))
+                                           nil))
+                               (take-while some?)))))
 
 (facts "about `trim-same-once-with-orig`"
   (fact "when it returns nil for nil"
@@ -176,7 +203,17 @@
     (trim-same-once-with-orig \a \b "abab") => (just ["abab", "ba"])
     (trim-same-once-with-orig \b \b "bab")  => (just ["bab", "a"])
     (trim-same-once-with-orig \a \a "aa")   => (just ["aa", ""])
-    (trim-same-once-with-orig \b \b "bab")  => (just ["bab", "a"])))
+    (trim-same-once-with-orig \b \b "bab")  => (just ["bab", "a"]))
+  (fact "when it trims fuzzy strings"
+    (for-all
+     {:max-size 24, :num-tests 50}
+     [s gen/string]
+     (trim-same-once-with-orig s) => (->> s
+                                          (iterate #(if (and (some? (second %)) (= (first %) (last %)))
+                                                      (apply str (butlast (rest %)))
+                                                      nil))
+                                          (take-while some?)
+                                          (take 2)))))
 
 (facts "about `all-prefixes`"
   (fact "when it returns nil for nil"
@@ -214,7 +251,12 @@
     (all-prefixes "a" "abcde")      => (just ["a", "abcde"])
     (all-prefixes "ab" "abcde")     => (just ["a", "ab", "abcde"])
     (all-prefixes \a "abcde")       => (just ["a", "abcde"])
-    (all-prefixes "bx" "abcde")     => (just ["a", "ab", "abcde"])))
+    (all-prefixes "bx" "abcde")     => (just ["a", "ab", "abcde"]))
+  (fact "when it returns all prefixes for fuzzy strings"
+    (for-all
+     {:max-size 24, :num-tests 50}
+     [s gen/string]
+     (all-prefixes s) => (seq (rest (reductions str "" s))))))
 
 (facts "about `all-suffixes`"
   (fact "when it returns nil for nil"
