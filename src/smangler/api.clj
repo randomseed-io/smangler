@@ -14,6 +14,21 @@
             [smangler.proto  :refer        :all]
             [orchestra.core  :refer [defn-spec]]))
 
+(defn-spec trim-same ::s/phrase
+  {:added "1.0.0" :tag String}
+
+  ([^String w ::s/stringable]
+   (sc/trim-same (->str w)))
+
+  ([^clojure.lang.IFn matcher ::s/char-matchable
+    ^String w                 ::s/stringable]
+   (sc/trim-same (->char-match matcher) (->str w)))
+
+  ([^Character start ::s/beginning-character
+    ^Character   end ::s/ending-character
+    ^String        w ::s/stringable]
+   (sc/trim-same start end (->str w))))
+
 (defn-spec trim-same-once ::s/phrase
   {:added "1.0.0" :tag String}
 
