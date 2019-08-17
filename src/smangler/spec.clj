@@ -59,16 +59,19 @@
              :fn   #(s/valid? ::character (:v (:args %))))
     #(gen/return (fn [c] (rand-nth [true false nil c (char (rand-int 1024))])))))
 
-;; Compound specs for either a function or an object that can be converted to a function.
 
 (s/def ::stringable
-  (s/or :character       ::character
-        :char-sequence   ::char-sequence
-        :number          ::number
-        :collection      (s/coll-of (s/or :character   ::character
-                                          :number      ::number
-                                          :string      ::string
-                                          :char-seq    ::char-sequence))))
+  (s/or
+   :nil             ::nil
+   :character       ::character
+   :char-sequence   ::char-sequence
+   :number          ::number
+   :collection      (s/coll-of (s/or :character   ::character
+                                     :number      ::number
+                                     :string      ::string
+                                     :char-seq    ::char-sequence))))
+
+;; Compound specs for either a function or an object that can be converted to a function.
 
 (s/def ::convertable-to-predicate
   (s/or
