@@ -2,7 +2,8 @@
 
     ^{:doc    "smangler library, class-based single dispatch."
       :author "Paweł Wilk"
-      :added  "1.0.0"}
+      :added  "1.0.0"
+      :no-doc true}
 
     smangler.proto)
 
