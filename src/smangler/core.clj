@@ -107,46 +107,46 @@
           (map #(apply str (apply concat %)))))))
 
 (defn-spec all-prefixes ::s/lazy-seq-of-ne-strings
-{:added "1.0.0" :tag clojure.lang.LazySeq}
+  {:added "1.0.0" :tag clojure.lang.LazySeq}
 
-([^String p ::s/phrase]
-(when-let [p (seq p)]
-  (rest (reductions str "" p))))
+  ([^String p ::s/phrase]
+   (when-let [p (seq p)]
+     (rest (reductions str "" p))))
 
-([^clojure.lang.IFn pred ::s/phrase-splitter
-  ^String p              ::s/phrase]
-(when-let [p (seq p)]
-  (->> p
-       (partition-by pred)
-       (reductions concat)
-       (map (partial apply str))))))
+  ([^clojure.lang.IFn pred ::s/phrase-splitter
+    ^String p              ::s/phrase]
+   (when-let [p (seq p)]
+     (->> p
+          (partition-by pred)
+          (reductions concat)
+          (map (partial apply str))))))
 
 (defn- for-suffixes
-"Generates all possible suffixes from the given sequence of objects"
-{:added "1.0.0" :tag clojure.lang.LazySeq}
-[^clojure.lang.IFn pred]
-(comp
-(comp (partial map (partial apply concat))
-      (comp (partial take-while seq)
-            (partial iterate rest)))
-(partial partition-by pred)))
+  "Generates all possible suffixes from the given sequence of objects"
+  {:added "1.0.0" :tag clojure.lang.LazySeq}
+  [^clojure.lang.IFn pred]
+  (comp
+   (comp (partial map (partial apply concat))
+         (comp (partial take-while seq)
+               (partial iterate rest)))
+   (partial partition-by pred)))
 
 (defn-spec all-subs ::s/lazy-seq-of-ne-strings
-{:added "1.0.0" :tag clojure.lang.LazySeq}
+  {:added "1.0.0" :tag clojure.lang.LazySeq}
 
-([^clojure.lang.IFn pred ::s/phrase-splitter
-  ^java.lang.String p    ::s/phrase]
-(when-let [p (seq p)]
-  (->> p
-       (partition-by pred)
-       (reductions concat)
-       (map (for-suffixes pred))
-       (apply concat)
-       (map str/join))))
+  ([^clojure.lang.IFn pred ::s/phrase-splitter
+    ^java.lang.String p    ::s/phrase]
+   (when-let [p (seq p)]
+     (->> p
+          (partition-by pred)
+          (reductions concat)
+          (map (for-suffixes pred))
+          (apply concat)
+          (map str/join))))
 
-([^java.lang.String p ::s/phrase]
-(when (seq p)
-  (->> p
-       all-prefixes
-       (map all-suffixes)
-       (apply concat)))))
+  ([^java.lang.String p ::s/phrase]
+   (when (seq p)
+     (->> p
+          all-prefixes
+          (map all-suffixes)
+          (apply concat)))))
