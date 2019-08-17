@@ -53,6 +53,11 @@
   (->char-match [p] (set p))
   (->part-pred  [p] (set p))
 
+  clojure.lang.PersistentVector
+
+  (->char-match [p] (set (apply str p)))
+  (->part-pred  [p] (set (apply str p)))
+
   clojure.lang.IPersistentVector
 
   (->char-match [p] (set (apply str p)))
