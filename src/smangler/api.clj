@@ -65,16 +65,22 @@
   {:added "1.0.0" :tag clojure.lang.LazySeq}
 
   ([^CharSequence w ::s/stringable]
-   (take 2 (trim-same-seq w)))
+   (when-some [w (->str w)]
+     (cons w (when-some [r (sc/trim-same-once w)]
+               (cons r nil)))))
 
   ([^clojure.lang.IFn matcher ::s/char-matchable
     ^CharSequence           w ::s/stringable]
-   (take 2 (trim-same-seq matcher w)))
+   (when-some [w (->str w)]
+     (cons w (when-some [r (sc/trim-same-once (->part-pred matcher) w)]
+               (cons r nil)))))
 
   ([^Character start ::s/beginning-character
     ^Character   end ::s/ending-character
     ^CharSequence  w ::s/stringable]
-   (take 2 (trim-same-seq start end w))))
+   (when-some [w (->str w)]
+     (cons w (when-some [r (sc/trim-same-once start end w)]
+               (cons r nil))))))
 
 (defn-spec all-prefixes ::s/lazy-seq-of-ne-strings
   {:added "1.0.0" :tag clojure.lang.LazySeq}
