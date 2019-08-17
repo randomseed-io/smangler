@@ -1,9 +1,11 @@
 (ns user
   (:require
-   [clojure.test                 :as                t]
    [clojure.spec.alpha           :as               cs]
    [clojure.spec.gen.alpha       :as               sg]
    [clojure.spec.test.alpha      :as               st]
+   [midje.repl                   :refer          :all]
+   [midje.experimental           :refer     [for-all]]
+   [kaocha.repl                  :as               kr]
    [orchestra.spec.test          :as               ot]
    [expound.alpha                :as               ex]
    [specviz.core                 :as          specviz]
@@ -27,8 +29,8 @@
 (require 'nrepl))
 
 (defn test-all []
-(refresh)
-(t/run-all-tests #"(smangler).*test$"))
+  (refresh)
+  (load-facts :print-facts))
 
 (comment 
 (refresh-all)

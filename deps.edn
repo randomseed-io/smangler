@@ -9,6 +9,10 @@
            :dev {
                  :extra-deps {org.clojure/tools.namespace          {:mvn/version "0.2.11"}
                               org.clojure/test.check               {:mvn/version "0.10.0-alpha4"}
+                              midje/midje                          {:mvn/version "1.9.9"}
+                              lambdaisland/kaocha                  {:mvn/version "0.0-529"}
+                              lambdaisland/kaocha-midje            {:git/url "https://github.com/lambdaisland/kaocha-midje/"
+                                                                    :sha "2e10cb9c581f5837a6e614421e09bf61c55d4cf8"}
                               specviz                              {:mvn/version "0.2.3"}
                               io.aviso/pretty                      {:mvn/version "0.1.34"}
                               spyscope                             {:mvn/version "0.1.6"}
@@ -20,8 +24,15 @@
            :test {
                   :extra-paths ["test"]
                   :extra-deps {org.clojure/test.check               {:mvn/version "0.10.0-alpha4"}
-                               lambdaisland/kaocha                  {:mvn/version "0.0-529"}}
-                  :main-opts ["-m" "kaocha.runner", "--config-file" "tests.edn"]
+                               midje/midje                          {:mvn/version "1.9.9"}
+                               lambdaisland/kaocha                  {:mvn/version "0.0-529"}
+                               lambdaisland/kaocha-midje            {:git/url "https://github.com/lambdaisland/kaocha-midje/"
+                                                                     :sha "2e10cb9c581f5837a6e614421e09bf61c55d4cf8"}}
+                  :main-opts ["-m"              "kaocha.runner",
+                              "--config-file"   "tests.edn",
+                              "--stc-num-tests" "100"
+                              "--stc-instrumentation"
+                              "--stc-asserts"]
                   :jvm-opts  ["-Xmx512m"]}
 
            :docs {
