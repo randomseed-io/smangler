@@ -33,37 +33,31 @@
   {:added "1.0.0" :tag String}
 
   ([^String w ::s/stringable]
-   (let [w (->str w)]
-     (some-or sc/trim-same-once w)))
+   (some-or sc/trim-same-once (->str w)))
 
   ([^clojure.lang.IFn matcher ::s/char-matchable
     ^String w                 ::s/stringable]
-   (let [w (->str w)]
-     (some-or sc/trim-same-once (->char-match matcher) w)))
+   (some-or sc/trim-same-once (->char-match matcher) (->str w)))
 
   ([^Character start ::s/beginning-character
     ^Character   end ::s/ending-character
     ^String        w ::s/stringable]
-   (let [w (->str w)]
-     (some-or sc/trim-same-once start end w))))
+   (some-or sc/trim-same-once start end (->str w))))
 
 (defn-spec trim-same-seq ::s/lazy-seq-of-strings
   {:added "1.0.0" :tag clojure.lang.LazySeq}
 
   ([^String w ::s/stringable]
-   (let [w (->str w)]
-     (part-caller-iterate sc/trim-same-once w)))
+   (part-caller-iterate sc/trim-same-once (->str w)))
 
   ([^clojure.lang.IFn matcher ::s/char-matchable
     ^String                 w ::s/stringable]
-   (let [w (->str w)]
-     (part-caller-iterate sc/trim-same-once (->char-match matcher) w)))
+   (part-caller-iterate sc/trim-same-once (->char-match matcher) (->str w)))
 
   ([^Character start ::s/beginning-character
     ^Character   end ::s/ending-character
     ^String        w ::s/stringable]
-   (let [w (->str w)]
-     (part-caller-iterate sc/trim-same-once start end w))))
+   (part-caller-iterate sc/trim-same-once start end (->str w))))
 
 (defn-spec trim-same-once-with-orig ::s/one-or-two-strings
   "Takes a string and returns a sequence containing the string and optionally its
@@ -104,8 +98,10 @@
 
 (defn-spec all-subs ::s/lazy-seq-of-ne-strings
   {:added "1.0.0" :tag clojure.lang.LazySeq}
+
   ([^String w ::s/stringable]
    (sc/all-subs (->str w)))
+
   ([^clojure.lang.IFn pred ::s/phrase-splittable
     ^String              w ::s/stringable]
    (sc/all-subs (->part-pred pred) (->str w))))
