@@ -76,3 +76,64 @@
     (trim-same \b \b "bab")  => "a"
     (trim-same \a \a "aa")   => ""
     (trim-same \b \b "bab")  => "a"))
+
+(facts "about `all-prefixes`"
+  (fact "when it returns nil for nil"
+    (all-prefixes nil)        => nil
+    (all-prefixes #{} nil)    => nil
+    (all-prefixes #{\a} nil)  => nil)
+  (fact "when it returns nil for an empty string"
+    (all-prefixes "")         => nil
+    (all-prefixes #{} "")     => nil
+    (all-prefixes #{\a} "")   => nil)
+  (fact "when it returns an original for not-matching slicer"
+    (all-prefixes #{} "abc")      => (just ["abc"])
+    (all-prefixes #{\q} "abc")    => (just ["abc"])
+    (all-prefixes #{\a \b} "xyz") => (just ["xyz"]))
+  (fact "when it returns all prefixes for a string"
+    (all-prefixes "a")              => (just ["a"])
+    (all-prefixes "abc")            => (just ["a", "ab", "abc"])
+    (all-prefixes #{\a} "abc")      => (just ["a", "abc"])
+    (all-prefixes #{\a \b} "abc")   => (just ["a", "ab", "abc"])
+    (all-prefixes #{\a} "abcde")    => (just ["a", "abcde"])
+    (all-prefixes #{\a \b} "abcde") => (just ["a", "ab", "abcde"])))
+
+(facts "about `all-suffixes`"
+  (fact "when it returns nil for nil"
+    (all-suffixes nil)         => nil
+    (all-suffixes #{} nil)     => nil
+    (all-suffixes #{\a} nil)   => nil)
+  (fact "when it returns nil for an empty string"
+    (all-suffixes "")          => nil
+    (all-suffixes #{} "")      => nil
+    (all-suffixes #{\a} "")    => nil)
+  (fact "when it returns an original for not-matching slicer"
+    (all-suffixes #{} "abc")   => (just ["abc"])
+    (all-suffixes #{\q} "abc") => (just ["abc"]))
+  (fact "when it returns all suffixes for a string"
+    (all-suffixes "a")              => (just ["a"])
+    (all-suffixes "abc")            => (just ["abc", "bc", "c"])
+    (all-suffixes #{\a} "abc")      => (just ["abc", "bc"])
+    (all-suffixes #{\a \b} "abc")   => (just ["abc", "bc", "c"])
+    (all-suffixes #{\a} "abcde")    => (just ["abcde", "bcde"])
+    (all-suffixes #{\a \b} "abcde") => (just ["abcde", "bcde", "cde"])))
+
+(facts "about `all-subs`"
+  (fact "when it returns nil for nil"
+    (all-subs nil)        => nil
+    (all-subs #{} nil)    => nil
+    (all-subs #{\a} nil)  => nil)
+  (fact "when it returns nil for an empty string"
+    (all-subs "")         => nil
+    (all-subs #{} "")     => nil
+    (all-subs #{\a} "")   => nil)
+  (fact "when it returns an original for not-matching slicer"
+    (all-subs #{} "abc")   => (just ["abc"])
+    (all-subs #{\q} "abc") => (just ["abc"]))
+  (fact "when it returns all infixes for a string"
+    (all-subs "a")              => (just ["a"])
+    (all-subs "abc")            => (just ["a", "ab", "b", "abc", "bc", "c"])
+    (all-subs #{\a} "abc")      => (just ["a", "abc", "bc"])
+    (all-subs #{\a \b} "abc")   => (just ["a", "ab", "b", "abc", "bc", "c"])
+    (all-subs #{\a} "abcde")    => (just ["a", "abcde", "bcde"])
+    (all-subs #{\a \b} "abcde") => (just ["a", "ab", "b" "abcde", "bcde", "cde"])))
