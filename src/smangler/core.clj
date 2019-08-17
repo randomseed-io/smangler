@@ -122,7 +122,7 @@
           (map (partial apply str))))))
 
 (defn- for-suffixes
-  "Generates all possible suffixes from the given sequence of objects"
+  "Generates all possible suffixes from the given sequence of character sequences."
   {:added "1.0.0" :tag clojure.lang.LazySeq}
   [^clojure.lang.IFn pred]
   (comp
