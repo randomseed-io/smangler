@@ -2,7 +2,8 @@
 
     ^{:doc    "smangler library, spec definitions."
       :author "Paweł Wilk"
-      :added  "1.0.0"}
+      :added  "1.0.0"
+      :no-doc true}
 
     smangler.spec
 
@@ -34,7 +35,6 @@
 (s/def ::nil                     nil?)
 (s/def ::some                    some?)
 (s/def ::number                  number?)
-
 
 ;; Function specs (matcher and partitioning predicate).
 

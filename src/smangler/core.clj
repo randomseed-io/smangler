@@ -1,7 +1,8 @@
 (ns
 
     ^{:doc    "smangler library, core imports."
-      :author "Paweł Wilk"}
+      :author "Paweł Wilk"
+      :added  "1.0.0"}
 
     smangler.core
 
@@ -10,24 +11,25 @@
             [orchestra.core  :refer [defn-spec]]))
 
 (defn-spec trim-same-once ::s/phrase
-  "Takes a string and trims its first and last character if they are the
-  same. Returns new string or nil when there is nothing to trim.
+  "Takes a string and trims its first and last character if they are equal.
+  Returns a new string or nil when there is nothing to trim or nil was passed
+  as an argument instead of a string. For an empty string it also returns nil.
 
-  When the matcher argument is used then it specifies a matching function used to
-  decide whether to trim first and last character of a string. The given function
-  should take a character and make a lookup to decide whether this character should
-  be trimmed from the beginning of a string. The returned value is then used to match
-  the last character of the same string. It should be a character (the same or
-  different as passed), nil or false. The trimming function will trim the string on
-  same ends if a value returned by this function match the last character of a string
-  and if the character supplied as a first argument to this function matches the
-  first character of a string. It's common to use a set (to match the same characters
-  on same ends) or a map (to match different characters).
+  When the matcher argument is present it specifies a matching function used to
+  decide whether to trim first and last character. The given function should take a
+  character and make a lookup to decide whether a character should be trimmed from
+  the beginning of a string. Additionally, its returned value (if a character) is
+  then used to match the last character of the string. Therefore the returned value
+  should be a character (the same or different as passed), nil or false (to indicate
+  a failed match). The trimming function will trim a string on both ends if a value
+  returned by the matcher is equal to the last character of this string. It's common
+  to use a set (to match the same characters on both ends) or a map (to match
+  different characters).
 
   When 3 arguments are given the first two should be characters used to match first
   and last character of a trimmed string (given as third argument).
 
-  If nil is given instead of a string the returned value is nil."
+  When the string consist of 2 matching letters the result will be an empty string."
   {:added "1.0.0" :tag java.lang.String}
 
   ([^CharSequence p ::s/phrase]
@@ -49,6 +51,25 @@
        (.. p (subSequence 1 l) toString)))))
 
 (defn-spec trim-same ::s/phrase
+  "Takes a string and recursively trims its first and last character if they are equal.
+  Returns a new string or nil when nil was passed as an argument instead of a
+  string. For an empty string it returns an empty string.
+
+  When the matcher argument is present it specifies a matching function used to
+  decide whether to trim first and last character. The given function should take a
+  character and make a lookup to decide whether a character should be trimmed from
+  the beginning of a string. Additionally, its returned value (if a character) is
+  then used to match the last character of the string. Therefore the returned value
+  should be a character (the same or different as passed), nil or false (to indicate
+  a failed match). The trimming function will trim a string on both ends if a value
+  returned by the matcher is equal to the last character of this string. It's common
+  to use a set (to match the same characters on both ends) or a map (to match
+  different characters).
+
+  When 3 arguments are given the first two should be characters used to match first
+  and last character of a trimmed string (given as third argument).
+
+  When the string consist of 2 matching letters the result will be an empty string."
   {:added "1.0.0" :tag java.lang.String}
 
   ([^CharSequence p ::s/phrase]
@@ -91,6 +112,16 @@
            (.. p (subSequence l (unchecked-inc-int r)) toString)))))))
 
 (defn-spec all-suffixes ::s/lazy-seq-of-ne-strings
+  "Generates a lazy sequence of all possible suffixes of a given string. Returns nil
+  if nil or an empty string was given as an argument instead of a string.
+
+  The resulting sequence will contain the whole string on its first position.
+
+  If two arguments are given the first one should be a predicate function used to
+  partition the given string. It should take a single character and if the returned
+  value is not nil nor false then all-suffixes will create a boundary (a place where
+  it can slice the string during generation of suffixes). Without this predicate each
+  character is such a boundary."
   {:added "1.0.0" :tag clojure.lang.LazySeq}
 
   ([^String p ::s/phrase]
@@ -107,6 +138,21 @@
           (map #(apply str (apply concat %)))))))
 
 (defn-spec all-prefixes ::s/lazy-seq-of-ne-strings
+  "Generates a lazy sequence of all possible prefixes of a given string. Returns nil
+  if nil or an empty string was given as an argument instead of a string.
+
+  It automatically converts objects of the following types to strings: characters,
+  numbers, sequences of characters, collections of strings, collections of
+  characters, collections of numbers. For collections it joins the elements converted
+  to strings.
+
+  The resulting sequence will contain the whole string on its last position.
+
+  If two arguments are given the first one should be a predicate function used to
+  partition the given string. It should take a single character and if the returned
+  value is not nil nor false then all-prefixes will create a boundary (a place where
+  it can slice the string during generation of prefixes). Without this predicate each
+  character is such a boundary."
   {:added "1.0.0" :tag clojure.lang.LazySeq}
 
   ([^String p ::s/phrase]
@@ -132,6 +178,19 @@
    (partial partition-by pred)))
 
 (defn-spec all-subs ::s/lazy-seq-of-ne-strings
+  "Generates a lazy sequence of all possible substrings (prefixes, suffixes and
+  infixes) of a given string. Returns nil if nil or an empty string was given as an
+  argument instead of a string.
+
+  The resulting sequence will contain the whole string in its middle. Moreover, the
+  substrings will not be unique across the sequence if the characters are repeating
+  in the input.
+
+  If two arguments are given the first one should be a predicate function used to
+  partition the given string. It should take a single character and if the returned
+  value is not nil nor false then all-subs will create a boundary (a place where it
+  can slice the string during generation of suffixes). Without this predicate each
+  character is such a boundary."
   {:added "1.0.0" :tag clojure.lang.LazySeq}
 
   ([^clojure.lang.IFn pred ::s/phrase-splitter
