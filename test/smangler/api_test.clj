@@ -294,7 +294,12 @@
     (all-suffixes "a" "abcde")      => (just ["abcde", "bcde"])
     (all-suffixes "ab" "abcde")     => (just ["abcde", "bcde", "cde"])
     (all-suffixes \a "abcde")       => (just ["abcde", "bcde"])
-    (all-suffixes "bx" "abcde")     => (just ["abcde", "bcde", "cde"])))
+    (all-suffixes "bx" "abcde")     => (just ["abcde", "bcde", "cde"]))
+  (fact "when it returns all suffixes for fuzzy strings"
+    (for-all
+     {:max-size 24, :num-tests 50}
+     [s gen/string]
+     (all-suffixes s) => (seq (take-while seq (iterate #(subs %1 1) s))))))
 
 (facts "about `all-subs`"
   (fact "when it returns nil for nil"
@@ -332,4 +337,13 @@
     (all-subs "a" "abcde")      => (just ["a", "abcde", "bcde"])
     (all-subs "ab" "abcde")     => (just ["a", "ab", "b", "abcde", "bcde", "cde"])
     (all-subs \a "abcde")       => (just ["a", "abcde", "bcde"])
-    (all-subs "bx" "abcde")     => (just ["a", "ab", "b", "abcde", "bcde", "cde"])))
+    (all-subs "bx" "abcde")     => (just ["a", "ab", "b", "abcde", "bcde", "cde"]))
+  (fact "when it returns all infixes for fuzzy strings"
+    (for-all
+     {:max-size 24, :num-tests 50}
+     [s gen/string]
+     (all-subs s) => (->> s
+                          (all-prefixes)
+                          (map all-suffixes)
+                          (apply concat)
+                          seq))))
