@@ -3,8 +3,14 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.randomseed</groupId>
   <artifactId>smangler</artifactId>
-  <version>0.1.0</version>
+  <version>1.0.0</version>
   <name>smangler</name>
+  <scm>
+    <connection>scm:git:git://github.com/randomseed-io/smangler.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/randomseed-io/smangler.git</developerConnection>
+    <tag>1.0.0</tag>
+    <url>https://github.com/randomseed-io/smangler</url>
+  </scm>
   <dependencies>
     <dependency>
       <groupId>org.clojure</groupId>
@@ -12,9 +18,19 @@
       <version>1.10.1</version>
     </dependency>
     <dependency>
-      <groupId>parallel</groupId>
-      <artifactId>parallel</artifactId>
-      <version>0.10</version>
+      <groupId>org.clojure</groupId>
+      <artifactId>spec.alpha</artifactId>
+      <version>0.2.176</version>
+    </dependency>
+    <dependency>
+      <groupId>orchestra</groupId>
+      <artifactId>orchestra</artifactId>
+      <version>2019.02.06-1</version>
+    </dependency>
+    <dependency>
+      <groupId>expound</groupId>
+      <artifactId>expound</artifactId>
+      <version>0.7.2</version>
     </dependency>
   </dependencies>
   <build>
