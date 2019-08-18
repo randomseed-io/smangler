@@ -8,16 +8,12 @@
 .hgignore
 .hg/
 gh-pages
-/doc/index.html
 .cpcache/
 /DELETE_ME
 /.dir-locals.el
 /.shadow-cljs/
-/doc/js/
 /todo.org
 /project.clj.bak
 /bin/test-cljs
 node_modules/
-/docs/index.html
-/docs/js
 /cljs-test-runner-out
