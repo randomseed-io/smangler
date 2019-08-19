@@ -57,7 +57,10 @@
                        :extra-deps {com.bhauman/rebel-readline      {:mvn/version "0.1.4"}
                                     com.bhauman/rebel-readline-cljs {:mvn/version "0.1.4"}
                                     io.aviso/pretty                 {:mvn/version "0.1.37"}}
-                       :main-opts ["-m" "smangler.rebel.main"]}}
+                       :main-opts ["-m" "smangler.rebel.main"]}
+           :pack {
+                  :extra-deps {pack/pack.alpha {:git/url "https://github.com/juxt/pack.alpha.git"
+                                                :sha "2769a6224bfb938e777906ea311b3daf7d2220f5"}}}}
 
  :codox {:name        "smangler"
          :description "String mangling library for Clojure"

@@ -18,7 +18,7 @@
     <connection>scm:git:git://github.com/randomseed-io/smangler.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/randomseed-io/smangler.git</developerConnection>
     <tag>1.0.0</tag>
-    <url>https://github.com/randomseed-io/smangler</url>
+    <url>https://github.com/randomseed-io/smangler/</url>
   </scm>
   <dependencies>
     <dependency>
