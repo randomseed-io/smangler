@@ -7,7 +7,7 @@ docs:
 			bin/docs
 
 test-clj:
-			bin/test
+			bin/test --no-profiling
 
 test:
 			@$(MAKE) test-clj
