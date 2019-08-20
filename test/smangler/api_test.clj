@@ -193,7 +193,10 @@
     (trim-same-once-with-orig \a \b "xx")   => (just ["xx"])
     (trim-same-once-with-orig #{\a} "")     => (just [""])
     (trim-same-once-with-orig #{\a} "")     => (just [""])
-    (trim-same-once-with-orig \a \b "")     => (just [""]))
+    (trim-same-once-with-orig \a \b "")     => (just [""])
+    (trim-same-once-with-orig (char 207) 0) => (just ["0"])
+    (trim-same-once-with-orig \\ 0)         => (just ["0"])
+    (trim-same-once-with-orig " " 0)        => (just ["0"]))
   (fact "when it returns a trimmed string"
     (trim-same-once-with-orig "barkrab")    => (just ["barkrab", "arkra"])
     (trim-same-once-with-orig "barrab")     => (just ["barrab", "arra"])

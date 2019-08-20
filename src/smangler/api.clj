@@ -195,7 +195,7 @@
   ([^clojure.lang.IFn matcher ::s/char-matchable
     ^CharSequence           w ::s/stringable]
    (when-some [w (->str w)]
-     (cons w (when-some [r (sc/trim-same-once (->part-pred matcher) w)]
+     (cons w (when-some [r (sc/trim-same-once (->char-match matcher) w)]
                (cons r nil)))))
 
   ([^Character start ::s/beginning-character

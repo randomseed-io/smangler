@@ -24,9 +24,10 @@
                                                 :theme :figwheel-theme})))
 (cs/check-asserts true)
 (ot/instrument)
+;;(st/instrument)
 
 (when (System/getProperty "nrepl.load")
-(require 'nrepl))
+  (require 'nrepl))
 
 (defn test-all []
   (refresh)
