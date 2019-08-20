@@ -24,6 +24,7 @@ Another Clojure library for manipulating strings.
 ;; Trim the same letters and generate a result of each step.
 (s/trim-same-seq "madam")
 ; => ("madam" "ada" "d")
+```
 
 * It generates all **prefixes** and **suffixes** of a string:
 
