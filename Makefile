@@ -1,5 +1,7 @@
+APPNAME = "smangler"
+VERSION = "1.0.0"
 
-.PHONY: 		watch default docs deploy test test-clj sig jar pom clean
+.PHONY: 		watch default docs deploy test test-clj sig jar pom clean tag
 
 default:		docs
 
@@ -14,26 +16,31 @@ test:
 
 pom: pom.xml
 			clojure -Spom && awk 'NF > 0' pom.xml > pom.new.xml && mv -f pom.new.xml pom.xml
+			mvn versions:set versions:commit -DnewVersion="$(VERSION)"
 			rm -f pom.xml.asc
 
-smangler.jar: pom.xml
-			clojure -Apack -m mach.pack.alpha.skinny --no-libs --project-path smangler.jar
+$(APPNAME).jar: pom.xml
+			clojure -Apack -m mach.pack.alpha.skinny --no-libs --project-path $(APPNAME).jar
 
-jar: smangler.jar
+jar: $(APPNAME).jar
 
 sig: pom.xml
 			rm -f pom.xml.asc
 			gpg2 --armor --detach-sig pom.xml
 
+tag: pom.xml
+			git tag -s "$(VERSION)" -m "Release $(VERSION)"
+
 deploy:
 			@$(MAKE) clean
 			@$(MAKE) pom
+			@$(MAKE) tag
 			@$(MAKE) jar
 			@$(MAKE) sig
-			mvn deploy:deploy-file -Dfile=smangler.jar -DrepositoryId=clojars -Durl=https://clojars.org/repo -DpomFile=pom.xml
+			mvn deploy:deploy-file -Dfile=$(APPNAME).jar -DrepositoryId=clojars -Durl=https://clojars.org/repo -DpomFile=pom.xml
 
 clean:
-			rm -f smangler.jar pom.xml.asc
+			rm -f $(APPNAME).jar pom.xml.asc
 
 .PHONY: list
 list:
