@@ -51,7 +51,7 @@
 
   ([^clojure.lang.IFn matcher ::s/char-matchable
     ^String w                 ::s/stringable]
-   (sc/trim-same (->char-match matcher) (->str w)))
+   (sc/trim-same (->character-matcher matcher) (->str w)))
 
   ([^Character start ::s/beginning-character
     ^Character   end ::s/ending-character
@@ -97,7 +97,7 @@
 
   ([^clojure.lang.IFn matcher ::s/char-matchable
     ^String w                 ::s/stringable]
-   (some-or sc/trim-same-once (->char-match matcher) (->str w)))
+   (some-or sc/trim-same-once (->character-matcher matcher) (->str w)))
 
   ([^Character start ::s/beginning-character
     ^Character   end ::s/ending-character
@@ -144,7 +144,7 @@
 
   ([^clojure.lang.IFn matcher ::s/char-matchable
     ^String                 w ::s/stringable]
-   (part-caller-iterate sc/trim-same-once (->char-match matcher) (->str w)))
+   (part-caller-iterate sc/trim-same-once (->character-matcher matcher) (->str w)))
 
   ([^Character start ::s/beginning-character
     ^Character   end ::s/ending-character
@@ -195,7 +195,7 @@
   ([^clojure.lang.IFn matcher ::s/char-matchable
     ^CharSequence           w ::s/stringable]
    (when-some [w (->str w)]
-     (cons w (when-some [r (sc/trim-same-once (->char-match matcher) w)]
+     (cons w (when-some [r (sc/trim-same-once (->character-matcher matcher) w)]
                (cons r nil)))))
 
   ([^Character start ::s/beginning-character
@@ -235,7 +235,7 @@
 
   ([^clojure.lang.IFn pred ::s/phrase-splittable
     ^String              w ::s/stringable]
-   (sc/all-prefixes (->part-pred pred) (->str w))))
+   (sc/all-prefixes (->string-partitioner pred) (->str w))))
 
 (defn-spec all-suffixes ::s/lazy-seq-of-ne-strings
   "Generates a lazy sequence of all possible suffixes of a given string. Returns nil
@@ -267,7 +267,7 @@
 
   ([^clojure.lang.IFn pred ::s/phrase-splittable
     ^String w              ::s/stringable]
-   (sc/all-suffixes (->part-pred pred) (->str w))))
+   (sc/all-suffixes (->string-partitioner pred) (->str w))))
 
 (defn-spec all-subs ::s/lazy-seq-of-ne-strings
   "Generates a lazy sequence of all possible substrings (prefixes, suffixes and
@@ -302,4 +302,4 @@
 
   ([^clojure.lang.IFn pred ::s/phrase-splittable
     ^String              w ::s/stringable]
-   (sc/all-subs (->part-pred pred) (->str w))))
+   (sc/all-subs (->string-partitioner pred) (->str w))))

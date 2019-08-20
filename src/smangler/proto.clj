@@ -39,47 +39,47 @@
 
 (defprotocol Predicative
 
-  (->char-match [p])
-  (->part-pred  [p]))
+  (->character-matcher [p])
+  (->string-partitioner  [p]))
 
 (extend-protocol Predicative
 
   clojure.lang.Sequential
 
-  (->char-match [p] (set (apply str p)))
-  (->part-pred  [p] (set (apply str p)))
+  (->character-matcher [p] (set (apply str p)))
+  (->string-partitioner  [p] (set (apply str p)))
 
   CharSequence
 
-  (->char-match [p] (set p))
-  (->part-pred  [p] (set p))
+  (->character-matcher [p] (set p))
+  (->string-partitioner  [p] (set p))
 
   clojure.lang.PersistentVector
 
-  (->char-match [p] (set (apply str p)))
-  (->part-pred  [p] (set (apply str p)))
+  (->character-matcher [p] (set (apply str p)))
+  (->string-partitioner  [p] (set (apply str p)))
 
   clojure.lang.IPersistentVector
 
-  (->char-match [p] (set (apply str p)))
-  (->part-pred  [p] (set (apply str p)))
+  (->character-matcher [p] (set (apply str p)))
+  (->string-partitioner  [p] (set (apply str p)))
 
   clojure.lang.IFn
 
-  (->char-match [p] p)
-  (->part-pred  [p] p)
+  (->character-matcher [p] p)
+  (->string-partitioner  [p] p)
 
   Character
 
-  (->char-match [p] #(and (= p %) %))
-  (->part-pred  [p] #(= p %))
+  (->character-matcher [p] #(and (= p %) %))
+  (->string-partitioner  [p] #(= p %))
 
   Number
 
-  (->char-match [p] (set (str p)))
-  (->part-pred  [p] (set (str p)))
+  (->character-matcher [p] (set (str p)))
+  (->string-partitioner  [p] (set (str p)))
 
   nil
 
-  (->char-match [p] (constantly nil))
-  (->part-pred  [p] (constantly nil)))
+  (->character-matcher [p] (constantly nil))
+  (->string-partitioner  [p] (constantly nil)))
