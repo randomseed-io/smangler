@@ -2,9 +2,9 @@
 
 [![Smangler on Clojars](https://img.shields.io/clojars/v/io.randomseed/smangler.svg)](https://clojars.org/io.randomseed/smangler)
 
-Another Clojure library for manipulating strings. It allows **trimming** the same or
-different characters from both ends (recursively or not) and generating all prefixes,
-suffixes and infixes.
+Another Clojure library for manipulating strings.
+
+* It **trims** the same or different characters from both ends of a string:
 
 ```
 (require [smangler.api :as s])
@@ -25,6 +25,11 @@ suffixes and infixes.
 (s/trim-same-seq "madam")
 ; => ("madam" "ada" "d")
 
+* It generates all **prefixes** and **suffixes** of a string:
+
+```
+(require [smangler.api :as s])
+
 ;; Generate all prefixes.
 (s/all-prefixes "madam")
 ; => ("m" "ma" "mad" "mada" "madam")
@@ -40,17 +45,31 @@ suffixes and infixes.
 ;; Generate all suffixes using dot as boundary.
 (s/all-suffixes "." "a.b.c")
 ; => ("a.b.c" ".b.c" "b.c" ".c" "c")
+```
+
+* It generates all possible prefixes, infixes and suffixes (**substrings**) of a string:
+
+```
+(require [smangler.api :as s])
 
 ;; Generate all prefixes, suffixes and infixes.
 (s/all-subs "abcd")
 ; => ("a" "ab" "b" "abc" "bc" "c")
 
-;; Generate all prefixes, suffixes and infixes using colon, dot and star as boundary characters.
+;; Generate all prefixes, suffixes and infixes using colon, dot and star
+;; as boundary characters.
 (api/all-subs ":.* " "use:*123*")
 ; => ("use"       "use:"     ":"     "use:*" ":*"
       "*"         "use:*123" ":*123" "*123"  "123"
       "use:*123*" ":*123*"   "*123*" "123*"  "*")
 ```
+
+Recommended way is to use functions defined in `smangler.api` namespace. They coerce
+last arguments into strings and predicate arguments into functions.
+
+Use of `smangler.core` may be helpful in special cases, where littile performance
+gain is very important. Functions from this namespace are very strict about input
+data types and  may return values of different types than their equivalents in API.
 
 ## Installation
 
@@ -61,13 +80,14 @@ To use smangler in your project, add the following to dependencies section of
 [io.randomseed/smangler "1.0.0"]
 ```
 
-For `deps.edn` use:
+For `deps.edn` add the following as an element of a map under `:deps` or
+`:extra-deps` key:
 
 ```
-{io.randomseed/smangler {:mvn/version "1.0.0"}}
+io.randomseed/smangler {:mvn/version "1.0.0"}
 ```
 
-You can also download JAR from [Clojars](https://clojars.org/io.randomseed/smangler)
+You can also download JAR from [Clojars](https://clojars.org/io.randomseed/smangler).
 
 ## Documentation
 
@@ -134,3 +154,5 @@ bin/repl
 ```
 
 Starts REPL and nREPL server (port number is stored in `.nrepl-port`).
+
+[LICENSE]:    https://github.com/randomseed-io/smangler/master/LICENSE
