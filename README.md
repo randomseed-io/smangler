@@ -6,7 +6,7 @@ Another Clojure library for manipulating strings.
 
 * It **trims** the same or different characters from both ends of a string:
 
-```
+```clojure
 (require [smangler.api :as s])
 
 ;; Trim the same letters from both ends.
@@ -28,7 +28,7 @@ Another Clojure library for manipulating strings.
 
 * It generates all **prefixes** and **suffixes** of a string:
 
-```
+```clojure
 (require [smangler.api :as s])
 
 ;; Generate all prefixes.
@@ -50,7 +50,7 @@ Another Clojure library for manipulating strings.
 
 * It generates all possible prefixes, infixes and suffixes (**substrings**) of a string:
 
-```
+```clojure
 (require [smangler.api :as s])
 
 ;; Generate all prefixes, suffixes and infixes.
@@ -77,14 +77,14 @@ data types and  may return values of different types than their equivalents in A
 To use smangler in your project, add the following to dependencies section of
 `project.clj` or `build.boot`:
 
-```
+```clojure
 [io.randomseed/smangler "1.0.0"]
 ```
 
 For `deps.edn` add the following as an element of a map under `:deps` or
 `:extra-deps` key:
 
-```
+```clojure
 io.randomseed/smangler {:mvn/version "1.0.0"}
 ```
 
@@ -120,37 +120,37 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ### Building docs
 
-```
+```bash
 make docs
 ```
 
 ### Building JAR
 
-```
+```bash
 make jar
 ```
 
 ### Rebuilding POM
 
-```
+```bash
 make pom
 ```
 
 ### Signing POM
 
-```
+```bash
 make sig
 ```
 
 ### Deploying to Clojars
 
-```
+```bash
 make deploy
 ```
 
 ### Interactive development
 
-```
+```bash
 bin/repl
 ```
 
