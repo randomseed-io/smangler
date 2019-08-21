@@ -45,3 +45,7 @@
   {:added "1.0.0"}
   `(when-some [v# ~(last more)]
      (if-some [r# (~f ~@(butlast more) v#)] r# v#)))
+
+(defmacro defdoc! [v docstr]
+  "Replaces documentation string of a Var."
+  `(alter-meta! (var ~v) #(update-in % [:doc] (constantly (str ~docstr)))))
