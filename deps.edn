@@ -37,8 +37,7 @@
                   :extra-paths ["aliases/codox"]
                   :extra-deps {org.clojure/tools.deps.alpha         {:mvn/version "0.7.527"}
                                specviz                              {:mvn/version "0.2.3"}
-                               codox                                {:mvn/version "0.10.7"}
-                               codox-theme-rdash                    {:mvn/version "0.1.2"}}
+                               codox                                {:mvn/version "0.10.7"}}
                   :main-opts ["-m" "smangler.codox.main"]}
 
            :dev-nrepl {
@@ -69,5 +68,4 @@
          :output-path "docs"
          :source-uri "https://github.com/randomseed-io/smangler/blob/{version}/{filepath}#L{line}"
          :metadata {:doc/format :markdown}
-         :themes [:default
-                  [:rdash]]}}
+         :themes [:default :randomseed]}}
