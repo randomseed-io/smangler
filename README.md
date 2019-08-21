@@ -156,4 +156,4 @@ bin/repl
 
 Starts REPL and nREPL server (port number is stored in `.nrepl-port`).
 
-[LICENSE]:    https://github.com/randomseed-io/smangler/master/LICENSE
+[LICENSE]:    https://github.com/randomseed-io/smangler/blob/master/LICENSE
