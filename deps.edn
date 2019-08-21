@@ -63,7 +63,7 @@
  :codox {:name        "smangler"
          :description "String mangling library for Clojure"
          :license     "Copyright"
-         :package     io.randomseed.smangler
+         :package     io.randomseed/smangler
          :version     "1.0.0"
          :output-path "docs"
          :source-uri "https://github.com/randomseed-io/smangler/blob/{version}/{filepath}#L{line}"
