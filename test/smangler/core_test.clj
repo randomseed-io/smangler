@@ -23,59 +23,59 @@
 (s/check-asserts true)
 ;;(st/check (st/enumerate-namespace 'smangler.core))
 
-(facts "about `trim-same-once`"
+(facts "about `trim-both-once`"
   (fact "when it returns nil for nil"
-    (trim-same-once nil)          => nil
-    (trim-same-once #{} nil)      => nil
-    (trim-same-once \a \b nil)    => nil)
+    (trim-both-once nil)          => nil
+    (trim-both-once #{} nil)      => nil
+    (trim-both-once \a \b nil)    => nil)
   (fact "when it returns nil for no-hit"
-    (trim-same-once "abcdef")     => nil
-    (trim-same-once "")           => nil
-    (trim-same-once "b")          => nil
-    (trim-same-once #{} "abc")    => nil
-    (trim-same-once \a \b "xy")   => nil
-    (trim-same-once #{} "aba")    => nil
-    (trim-same-once \a \b "xx")   => nil
-    (trim-same-once #{\a} "")     => nil
-    (trim-same-once #{\a} "")     => nil
-    (trim-same-once \a \b "")     => nil)
+    (trim-both-once "abcdef")     => nil
+    (trim-both-once "")           => nil
+    (trim-both-once "b")          => nil
+    (trim-both-once #{} "abc")    => nil
+    (trim-both-once \a \b "xy")   => nil
+    (trim-both-once #{} "aba")    => nil
+    (trim-both-once \a \b "xx")   => nil
+    (trim-both-once #{\a} "")     => nil
+    (trim-both-once #{\a} "")     => nil
+    (trim-both-once \a \b "")     => nil)
   (fact "when it returns trimmed string"
-    (trim-same-once "barkrab")    => "arkra"
-    (trim-same-once "barrab")     => "arra"
-    (trim-same-once "aa")         => ""
-    (trim-same-once #{\a} "aba")  => "b"
-    (trim-same-once #{\a} "aa")   => ""
-    (trim-same-once \a \b "abab") => "ba"
-    (trim-same-once \b \b "bab")  => "a"
-    (trim-same-once \a \a "aa")   => ""
-    (trim-same-once \b \b "bab")  => "a"))
+    (trim-both-once "barkrab")    => "arkra"
+    (trim-both-once "barrab")     => "arra"
+    (trim-both-once "aa")         => ""
+    (trim-both-once #{\a} "aba")  => "b"
+    (trim-both-once #{\a} "aa")   => ""
+    (trim-both-once \a \b "abab") => "ba"
+    (trim-both-once \b \b "bab")  => "a"
+    (trim-both-once \a \a "aa")   => ""
+    (trim-both-once \b \b "bab")  => "a"))
 
-(facts "about `trim-same`"
+(facts "about `trim-both`"
   (fact "when it returns nil for nil"
-    (trim-same nil)          => nil
-    (trim-same #{} nil)      => nil
-    (trim-same \a \b nil)    => nil)
+    (trim-both nil)          => nil
+    (trim-both #{} nil)      => nil
+    (trim-both \a \b nil)    => nil)
   (fact "when it returns original for no-hit"
-    (trim-same "abcdef")     => "abcdef"
-    (trim-same "")           => ""
-    (trim-same "b")          => "b"
-    (trim-same #{} "abc")    => "abc"
-    (trim-same \a \b "xy")   => "xy"
-    (trim-same #{} "aba")    => "aba"
-    (trim-same \a \b "xx")   => "xx"
-    (trim-same #{\a} "")     => ""
-    (trim-same #{\a} "")     => ""
-    (trim-same \a \b "")     => "")
+    (trim-both "abcdef")     => "abcdef"
+    (trim-both "")           => ""
+    (trim-both "b")          => "b"
+    (trim-both #{} "abc")    => "abc"
+    (trim-both \a \b "xy")   => "xy"
+    (trim-both #{} "aba")    => "aba"
+    (trim-both \a \b "xx")   => "xx"
+    (trim-both #{\a} "")     => ""
+    (trim-both #{\a} "")     => ""
+    (trim-both \a \b "")     => "")
   (fact "when it returns trimmed string"
-    (trim-same "barkrab")    => "k"
-    (trim-same "barrab")     => ""
-    (trim-same "aa")         => ""
-    (trim-same #{\a} "aba")  => "b"
-    (trim-same #{\a} "aa")   => ""
-    (trim-same \a \b "abab") => "ba"
-    (trim-same \b \b "bab")  => "a"
-    (trim-same \a \a "aa")   => ""
-    (trim-same \b \b "bab")  => "a"))
+    (trim-both "barkrab")    => "k"
+    (trim-both "barrab")     => ""
+    (trim-both "aa")         => ""
+    (trim-both #{\a} "aba")  => "b"
+    (trim-both #{\a} "aa")   => ""
+    (trim-both \a \b "abab") => "ba"
+    (trim-both \b \b "bab")  => "a"
+    (trim-both \a \a "aa")   => ""
+    (trim-both \b \b "bab")  => "a"))
 
 (facts "about `all-prefixes`"
   (fact "when it returns nil for nil"

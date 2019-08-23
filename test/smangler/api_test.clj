@@ -23,195 +23,195 @@
                                      :theme :figwheel-theme})))
 (s/check-asserts true)
 
-(facts "about `trim-same-once`"
+(facts "about `trim-both-once`"
   (fact "when it returns nil for nil"
-    (trim-same-once nil)          => nil
-    (trim-same-once #{} nil)      => nil
-    (trim-same-once #{\a} nil)    => nil
-    (trim-same-once \a \b nil)    => nil
-    (trim-same-once nil nil)      => nil
-    (trim-same-once "" nil)       => nil
-    (trim-same-once "ab" nil)     => nil
-    (trim-same-once "xx" nil)     => nil)
+    (trim-both-once nil)          => nil
+    (trim-both-once #{} nil)      => nil
+    (trim-both-once #{\a} nil)    => nil
+    (trim-both-once \a \b nil)    => nil
+    (trim-both-once nil nil)      => nil
+    (trim-both-once "" nil)       => nil
+    (trim-both-once "ab" nil)     => nil
+    (trim-both-once "xx" nil)     => nil)
   (fact "when it returns an original for no-hit"
-    (trim-same-once "abcdef")     => "abcdef"
-    (trim-same-once "")           => ""
-    (trim-same-once nil "")       => ""
-    (trim-same-once "b")          => "b"
-    (trim-same-once nil "b")      => "b"
-    (trim-same-once #{} "abc")    => "abc"
-    (trim-same-once \a \b "xy")   => "xy"
-    (trim-same-once #{} "aba")    => "aba"
-    (trim-same-once nil "aba")    => "aba"
-    (trim-same-once "" "aba")     => "aba"
-    (trim-same-once "xyz" "aba")  => "aba"
-    (trim-same-once "xxx" "aba")  => "aba"
-    (trim-same-once \a \b "xx")   => "xx"
-    (trim-same-once #{\a} "")     => ""
-    (trim-same-once #{\a} "")     => ""
-    (trim-same-once \a \b "")     => ""
-    (trim-same-once nil "")       => ""
-    (trim-same-once "" "")        => "")
+    (trim-both-once "abcdef")     => "abcdef"
+    (trim-both-once "")           => ""
+    (trim-both-once nil "")       => ""
+    (trim-both-once "b")          => "b"
+    (trim-both-once nil "b")      => "b"
+    (trim-both-once #{} "abc")    => "abc"
+    (trim-both-once \a \b "xy")   => "xy"
+    (trim-both-once #{} "aba")    => "aba"
+    (trim-both-once nil "aba")    => "aba"
+    (trim-both-once "" "aba")     => "aba"
+    (trim-both-once "xyz" "aba")  => "aba"
+    (trim-both-once "xxx" "aba")  => "aba"
+    (trim-both-once \a \b "xx")   => "xx"
+    (trim-both-once #{\a} "")     => ""
+    (trim-both-once #{\a} "")     => ""
+    (trim-both-once \a \b "")     => ""
+    (trim-both-once nil "")       => ""
+    (trim-both-once "" "")        => "")
   (fact "when it returns a trimmed string"
-    (trim-same-once "barkrab")    => "arkra"
-    (trim-same-once "barrab")     => "arra"
-    (trim-same-once "aa")         => ""
-    (trim-same-once "abc" "aba")  => "b"
-    (trim-same-once #{\a} "aba")  => "b"
-    (trim-same-once #{\a} "aa")   => ""
-    (trim-same-once "a" "aa")     => ""
-    (trim-same-once "abc" "aa")   => ""
-    (trim-same-once \a \b "abab") => "ba"
-    (trim-same-once \b \b "bab")  => "a"
-    (trim-same-once \a \a "aa")   => ""
-    (trim-same-once \b \b "bab")  => "a")
+    (trim-both-once "barkrab")    => "arkra"
+    (trim-both-once "barrab")     => "arra"
+    (trim-both-once "aa")         => ""
+    (trim-both-once "abc" "aba")  => "b"
+    (trim-both-once #{\a} "aba")  => "b"
+    (trim-both-once #{\a} "aa")   => ""
+    (trim-both-once "a" "aa")     => ""
+    (trim-both-once "abc" "aa")   => ""
+    (trim-both-once \a \b "abab") => "ba"
+    (trim-both-once \b \b "bab")  => "a"
+    (trim-both-once \a \a "aa")   => ""
+    (trim-both-once \b \b "bab")  => "a")
   (fact "when it trims fuzzy strings"
     (for-all
      {:max-size 24, :num-tests 50}
      [s gen/string]
-     (trim-same-once s) => (if (and (some? (second s)) (= (first s) (last s)))
+     (trim-both-once s) => (if (and (some? (second s)) (= (first s) (last s)))
                              (apply str (butlast (rest s)))
                              s))))
 
-(facts "about `trim-same`"
+(facts "about `trim-both`"
   (fact "when it returns nil for nil"
-    (trim-same nil)          => nil
-    (trim-same #{} nil)      => nil
-    (trim-same \a \b nil)    => nil
-    (trim-same nil nil)      => nil
-    (trim-same "" nil)       => nil
-    (trim-same "ab" nil)     => nil)
+    (trim-both nil)          => nil
+    (trim-both #{} nil)      => nil
+    (trim-both \a \b nil)    => nil
+    (trim-both nil nil)      => nil
+    (trim-both "" nil)       => nil
+    (trim-both "ab" nil)     => nil)
   (fact "when it returns an original for no-hit"
-    (trim-same "abcdef")     => "abcdef"
-    (trim-same "")           => ""
-    (trim-same "b")          => "b"
-    (trim-same nil "")       => ""
-    (trim-same nil "b")      => "b"
-    (trim-same "" "")        => ""
-    (trim-same "" "b")       => "b"
-    (trim-same #{} "abc")    => "abc"
-    (trim-same nil "abc")    => "abc"
-    (trim-same \a \b "xy")   => "xy"
-    (trim-same #{} "aba")    => "aba"
-    (trim-same nil "aba")    => "aba"
-    (trim-same "" "aba")     => "aba"
-    (trim-same "x" "aba")    => "aba"
-    (trim-same "xx" "aba")   => "aba"
-    (trim-same \a \b "xx")   => "xx"
-    (trim-same #{\a} "")     => ""
-    (trim-same #{\a} "")     => ""
-    (trim-same \a \b "")     => "")
+    (trim-both "abcdef")     => "abcdef"
+    (trim-both "")           => ""
+    (trim-both "b")          => "b"
+    (trim-both nil "")       => ""
+    (trim-both nil "b")      => "b"
+    (trim-both "" "")        => ""
+    (trim-both "" "b")       => "b"
+    (trim-both #{} "abc")    => "abc"
+    (trim-both nil "abc")    => "abc"
+    (trim-both \a \b "xy")   => "xy"
+    (trim-both #{} "aba")    => "aba"
+    (trim-both nil "aba")    => "aba"
+    (trim-both "" "aba")     => "aba"
+    (trim-both "x" "aba")    => "aba"
+    (trim-both "xx" "aba")   => "aba"
+    (trim-both \a \b "xx")   => "xx"
+    (trim-both #{\a} "")     => ""
+    (trim-both #{\a} "")     => ""
+    (trim-both \a \b "")     => "")
   (fact "when it returns a trimmed string"
-    (trim-same "barkrab")    => "k"
-    (trim-same "barrab")     => ""
-    (trim-same "aa")         => ""
-    (trim-same #{\a} "aba")  => "b"
-    (trim-same #{\a} "aa")   => ""
-    (trim-same "a" "aba")    => "b"
-    (trim-same "a" "aa")     => ""
-    (trim-same "ax" "aba")  => "b"
-    (trim-same "axx" "aa")   => ""
-    (trim-same \a \b "abab") => "ba"
-    (trim-same \b \b "bab")  => "a"
-    (trim-same \a \a "aa")   => ""
-    (trim-same \b \b "bab")  => "a")
+    (trim-both "barkrab")    => "k"
+    (trim-both "barrab")     => ""
+    (trim-both "aa")         => ""
+    (trim-both #{\a} "aba")  => "b"
+    (trim-both #{\a} "aa")   => ""
+    (trim-both "a" "aba")    => "b"
+    (trim-both "a" "aa")     => ""
+    (trim-both "ax" "aba")  => "b"
+    (trim-both "axx" "aa")   => ""
+    (trim-both \a \b "abab") => "ba"
+    (trim-both \b \b "bab")  => "a"
+    (trim-both \a \a "aa")   => ""
+    (trim-both \b \b "bab")  => "a")
   (fact "when it trims fuzzy strings"
     (for-all
      {:max-size 24, :num-tests 50}
      [s gen/string]
-     (trim-same s) => (last
+     (trim-both s) => (last
                        (take-while
                         some?
                         (iterate #(if (and (some? (second %)) (= (first %) (last %)))
                                     (apply str (butlast (rest %)))
                                     nil) s))))))
 
-(facts "about `trim-same-seq`"
+(facts "about `trim-both-seq`"
   (fact "when it returns nil for nil"
-    (trim-same-seq nil)          => nil
-    (trim-same-seq #{} nil)      => nil
-    (trim-same-seq nil nil)      => nil
-    (trim-same-seq "" nil)       => nil
-    (trim-same-seq "x" nil)      => nil
-    (trim-same-seq "xx" nil)     => nil
-    (trim-same-seq \a \b nil)    => nil)
+    (trim-both-seq nil)          => nil
+    (trim-both-seq #{} nil)      => nil
+    (trim-both-seq nil nil)      => nil
+    (trim-both-seq "" nil)       => nil
+    (trim-both-seq "x" nil)      => nil
+    (trim-both-seq "xx" nil)     => nil
+    (trim-both-seq \a \b nil)    => nil)
   (fact "when it returns an original for no-hit"
-    (trim-same-seq "abcdef")     => (just ["abcdef"])
-    (trim-same-seq "")           => (just [""])
-    (trim-same-seq "b")          => (just ["b"])
-    (trim-same-seq #{} "abc")    => (just ["abc"])
-    (trim-same-seq \a \b "xy")   => (just ["xy"])
-    (trim-same-seq #{} "aba")    => (just ["aba"])
-    (trim-same-seq nil "aba")    => (just ["aba"])
-    (trim-same-seq "" "aba")     => (just ["aba"])
-    (trim-same-seq "x" "aba")    => (just ["aba"])
-    (trim-same-seq "xx" "aba")   => (just ["aba"])
-    (trim-same-seq \a \b "xx")   => (just ["xx"])
-    (trim-same-seq #{\a} "")     => (just [""])
-    (trim-same-seq "a" "")       => (just [""])
-    (trim-same-seq nil "")       => (just [""])
-    (trim-same-seq "" "")        => (just [""])
-    (trim-same-seq \a \b "")     => (just [""]))
+    (trim-both-seq "abcdef")     => (just ["abcdef"])
+    (trim-both-seq "")           => (just [""])
+    (trim-both-seq "b")          => (just ["b"])
+    (trim-both-seq #{} "abc")    => (just ["abc"])
+    (trim-both-seq \a \b "xy")   => (just ["xy"])
+    (trim-both-seq #{} "aba")    => (just ["aba"])
+    (trim-both-seq nil "aba")    => (just ["aba"])
+    (trim-both-seq "" "aba")     => (just ["aba"])
+    (trim-both-seq "x" "aba")    => (just ["aba"])
+    (trim-both-seq "xx" "aba")   => (just ["aba"])
+    (trim-both-seq \a \b "xx")   => (just ["xx"])
+    (trim-both-seq #{\a} "")     => (just [""])
+    (trim-both-seq "a" "")       => (just [""])
+    (trim-both-seq nil "")       => (just [""])
+    (trim-both-seq "" "")        => (just [""])
+    (trim-both-seq \a \b "")     => (just [""]))
   (fact "when it returns  a trimmed string"
-    (trim-same-seq "barkrab")    => (just ["barkrab", "arkra", "rkr", "k"])
-    (trim-same-seq "barrab")     => (just ["barrab", "arra", "rr", ""])
-    (trim-same-seq "aa")         => (just ["aa", ""])
-    (trim-same-seq #{\a} "aba")  => (just ["aba", "b"])
-    (trim-same-seq #{\a} "aa")   => (just ["aa", ""])
-    (trim-same-seq "a" "aba")    => (just ["aba", "b"])
-    (trim-same-seq "axa" "aa")   => (just ["aa", ""])
-    (trim-same-seq "a" "aa")     => (just ["aa", ""])
-    (trim-same-seq \a \b "abab") => (just ["abab", "ba"])
-    (trim-same-seq \b \b "bab")  => (just ["bab", "a"])
-    (trim-same-seq \a \a "aa")   => (just ["aa", ""])
-    (trim-same-seq \b \b "bab")  => (just ["bab", "a"]))
+    (trim-both-seq "barkrab")    => (just ["barkrab", "arkra", "rkr", "k"])
+    (trim-both-seq "barrab")     => (just ["barrab", "arra", "rr", ""])
+    (trim-both-seq "aa")         => (just ["aa", ""])
+    (trim-both-seq #{\a} "aba")  => (just ["aba", "b"])
+    (trim-both-seq #{\a} "aa")   => (just ["aa", ""])
+    (trim-both-seq "a" "aba")    => (just ["aba", "b"])
+    (trim-both-seq "axa" "aa")   => (just ["aa", ""])
+    (trim-both-seq "a" "aa")     => (just ["aa", ""])
+    (trim-both-seq \a \b "abab") => (just ["abab", "ba"])
+    (trim-both-seq \b \b "bab")  => (just ["bab", "a"])
+    (trim-both-seq \a \a "aa")   => (just ["aa", ""])
+    (trim-both-seq \b \b "bab")  => (just ["bab", "a"]))
   (fact "when it trims fuzzy strings"
     (for-all
      {:max-size 24, :num-tests 50}
      [s gen/string]
-     (trim-same-seq s) => (->> s
+     (trim-both-seq s) => (->> s
                                (iterate #(if (and (some? (second %)) (= (first %) (last %)))
                                            (apply str (butlast (rest %)))
                                            nil))
                                (take-while some?)))))
 
-(facts "about `trim-same-once-with-orig`"
+(facts "about `trim-both-once-with-orig`"
   (fact "when it returns nil for nil"
-    (trim-same-once-with-orig nil)          => nil
-    (trim-same-once-with-orig #{} nil)      => nil
-    (trim-same-once-with-orig \a \b nil)    => nil
-    (trim-same-once-with-orig nil nil)      => nil
-    (trim-same-once-with-orig "" nil)       => nil
-    (trim-same-once-with-orig "ab" nil)     => nil)
+    (trim-both-once-with-orig nil)          => nil
+    (trim-both-once-with-orig #{} nil)      => nil
+    (trim-both-once-with-orig \a \b nil)    => nil
+    (trim-both-once-with-orig nil nil)      => nil
+    (trim-both-once-with-orig "" nil)       => nil
+    (trim-both-once-with-orig "ab" nil)     => nil)
   (fact "when it returns an original for no-hit"
-    (trim-same-once-with-orig "abcdef")     => (just ["abcdef"])
-    (trim-same-once-with-orig "")           => (just [""])
-    (trim-same-once-with-orig "b")          => (just ["b"])
-    (trim-same-once-with-orig #{} "abc")    => (just ["abc"])
-    (trim-same-once-with-orig \a \b "xy")   => (just ["xy"])
-    (trim-same-once-with-orig #{} "aba")    => (just ["aba"])
-    (trim-same-once-with-orig \a \b "xx")   => (just ["xx"])
-    (trim-same-once-with-orig #{\a} "")     => (just [""])
-    (trim-same-once-with-orig #{\a} "")     => (just [""])
-    (trim-same-once-with-orig \a \b "")     => (just [""])
-    (trim-same-once-with-orig (char 207) 0) => (just ["0"])
-    (trim-same-once-with-orig \\ 0)         => (just ["0"])
-    (trim-same-once-with-orig " " 0)        => (just ["0"]))
+    (trim-both-once-with-orig "abcdef")     => (just ["abcdef"])
+    (trim-both-once-with-orig "")           => (just [""])
+    (trim-both-once-with-orig "b")          => (just ["b"])
+    (trim-both-once-with-orig #{} "abc")    => (just ["abc"])
+    (trim-both-once-with-orig \a \b "xy")   => (just ["xy"])
+    (trim-both-once-with-orig #{} "aba")    => (just ["aba"])
+    (trim-both-once-with-orig \a \b "xx")   => (just ["xx"])
+    (trim-both-once-with-orig #{\a} "")     => (just [""])
+    (trim-both-once-with-orig #{\a} "")     => (just [""])
+    (trim-both-once-with-orig \a \b "")     => (just [""])
+    (trim-both-once-with-orig (char 207) 0) => (just ["0"])
+    (trim-both-once-with-orig \\ 0)         => (just ["0"])
+    (trim-both-once-with-orig " " 0)        => (just ["0"]))
   (fact "when it returns a trimmed string"
-    (trim-same-once-with-orig "barkrab")    => (just ["barkrab", "arkra"])
-    (trim-same-once-with-orig "barrab")     => (just ["barrab", "arra"])
-    (trim-same-once-with-orig "aa")         => (just ["aa", ""])
-    (trim-same-once-with-orig #{\a} "aba")  => (just ["aba", "b"])
-    (trim-same-once-with-orig #{\a} "aa")   => (just ["aa", ""])
-    (trim-same-once-with-orig \a \b "abab") => (just ["abab", "ba"])
-    (trim-same-once-with-orig \b \b "bab")  => (just ["bab", "a"])
-    (trim-same-once-with-orig \a \a "aa")   => (just ["aa", ""])
-    (trim-same-once-with-orig \b \b "bab")  => (just ["bab", "a"]))
+    (trim-both-once-with-orig "barkrab")    => (just ["barkrab", "arkra"])
+    (trim-both-once-with-orig "barrab")     => (just ["barrab", "arra"])
+    (trim-both-once-with-orig "aa")         => (just ["aa", ""])
+    (trim-both-once-with-orig #{\a} "aba")  => (just ["aba", "b"])
+    (trim-both-once-with-orig #{\a} "aa")   => (just ["aa", ""])
+    (trim-both-once-with-orig \a \b "abab") => (just ["abab", "ba"])
+    (trim-both-once-with-orig \b \b "bab")  => (just ["bab", "a"])
+    (trim-both-once-with-orig \a \a "aa")   => (just ["aa", ""])
+    (trim-both-once-with-orig \b \b "bab")  => (just ["bab", "a"]))
   (fact "when it trims fuzzy strings"
     (for-all
      {:max-size 24, :num-tests 50}
      [s gen/string]
-     (trim-same-once-with-orig s) => (->> s
+     (trim-both-once-with-orig s) => (->> s
                                           (iterate #(if (and (some? (second %)) (= (first %) (last %)))
                                                       (apply str (butlast (rest %)))
                                                       nil))

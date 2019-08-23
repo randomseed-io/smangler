@@ -1,6 +1,6 @@
 # Trimming
 
-String trimming is handled by the API function [`trim-same`][api-trim-same] from the
+String trimming is handled by the API function [`trim-both`][api-trim-both] from the
 namespace [`smangler.api`][api]. In its single-argument version it trims a given
 string on both ends if the characters are the same. It repeats this operation until
 there is nothing to trim.
@@ -8,9 +8,9 @@ there is nothing to trim.
 ```clojure
 (require '(smangler [api :as sa]))
 
-(sa/trim-same "abba")     ; => ""
-(sa/trim-same "some")     ; => "some"
-(sa/trim-same "barkrab")  ; => "k"
+(sa/trim-both "abba")     ; => ""
+(sa/trim-both "some")     ; => "some"
+(sa/trim-both "barkrab")  ; => "k"
 ```
 
 ## Coercion to strings
@@ -22,37 +22,43 @@ and numbers:
 ```clojure
 (require '(smangler [api :as sa]))
 
-(sa/trim-same 1111)          ; => ""
-(sa/trim-same 12345)         ; => "12345"
-(sa/trim-same 12021)         ; => "0"
-(sa/trim-same \a)            ; => "a"
-(sa/trim-same [1 0 1])       ; => "0"
-(sa/trim-same [\a \b \a])    ; => "b"
-(sa/trim-same ["abc" "ba"])  ; => "c"
+(sa/trim-both 1111)          ; => ""
+(sa/trim-both 12345)         ; => "12345"
+(sa/trim-both 12021)         ; => "0"
+(sa/trim-both \a)            ; => "a"
+(sa/trim-both [1 0 1])       ; => "0"
+(sa/trim-both [\a \b \a])    ; => "b"
+(sa/trim-both ["abc" "ba"])  ; => "c"
 ```
 
 ## Custom matcher
 
-Optionally, you can call `trim-same` with 2 arguments passed. In this scenario the
+Optionally, you can call `trim-both` with 2 arguments passed. In this scenario the
 first argument should be a function that takes a single character and returns either
 some character, `nil` or `false`. This function, called the matcher, is used on
 a first character of a string to determine whether it should be removed (along with
-a last character).
+a last character):
+
+```clojure
+(fn [character]
+  (and (some-lookup character)  ; some-lookup should check if a character should be trimmed
+       character))              ; important to return the character for the matcher to work
+```
 
 If the matcher returns `nil` or `false` then no trimming occurs. If the matcher
-returns a character it is compared with the right-most character of the trimmed
-string and if they're equal then trimming is performed.
+returns a character it is compared by `trim-both` with the right-most character of
+the trimmed string and if they're equal then trimming is performed.
 
 ```clojure
 (require '(smangler [api :as sa]))
 
 ;; Only 'a' will be trimmed since the matcher
 ;; checks if it is this letter.
-(sa/trim-same #(and (= \a %) %) "abxba")   ; => "bxb"
+(sa/trim-both #(and (= \a %) %) "abxba")   ; => "bxb"
 
 ;; Beginning 'a' and ending 'z' will be trimmed
 ;; because matcher requires that 'a' must have corresponding 'z'.
-(sa/trim-same #(and (= \a %) \z) "abcdz")  ; => "bcd"
+(sa/trim-both #(and (= \a %) \z) "abcdz")  ; => "bcd"
 ```
 
 ### Sets as matchers
@@ -64,8 +70,8 @@ perform quick lookup:
 ```clojure
 (require '(smangler [api :as sa]))
 
-(sa/trim-same #{\a \b} "abxba")  ; => "x"
-(sa/trim-same #{\a}    "abxba")  ; => "bxb"
+(sa/trim-both #{\a \b} "abxba")  ; => "x"
+(sa/trim-both #{\a}    "abxba")  ; => "bxb"
 ```
 
 ### Maps as matchers
@@ -77,8 +83,8 @@ a string in an easy way:
 ```clojure
 (require '(smangler [api :as sa]))
 
-(sa/trim-same {\a \a} "abxba")  ; => "bxb"
-(sa/trim-same {\a \z} "abcdz")  ; => "bcd"
+(sa/trim-both {\a \a} "abxba")  ; => "bxb"
+(sa/trim-both {\a \z} "abcdz")  ; => "bcd"
 ```
 
 ### Coercion to matcher
@@ -90,12 +96,12 @@ characters and numbers:
 ```clojure
 (require '(smangler [api :as sa]))
 
-(sa/trim-same \a        "abxba")  ; => "bxb"
-(sa/trim-same 1         "1abc1")  ; => "abc"
-(sa/trim-same 12      "21abc12")  ; => "abc"
-(sa/trim-same [1 2]   "21abc12")  ; => "abc"
-(sa/trim-same [\a \b]   "abxba")  ; => "x"
-(sa/trim-same "ab"      "abxba")  ; => "x"
+(sa/trim-both \a        "abxba")  ; => "bxb"
+(sa/trim-both 1         "1abc1")  ; => "abc"
+(sa/trim-both 12      "21abc12")  ; => "abc"
+(sa/trim-both [1 2]   "21abc12")  ; => "abc"
+(sa/trim-both [\a \b]   "abxba")  ; => "x"
+(sa/trim-both "ab"      "abxba")  ; => "x"
 ```
 
 ## Two characters and a string
@@ -107,36 +113,36 @@ be performed:
 ```clojure
 (require '(smangler [api :as sa]))
 
-(sa/trim-same \a \a "abxba")  ; => "bxb"
-(sa/trim-same \a \a "aaxaa")  ; => "x"
-(sa/trim-same \1 \1 "1abc1")  ; => "abc"
-(sa/trim-same \a \z "axz")    ; => "x"
-(sa/trim-same \a \z "aaxzz")  ; => "x"
+(sa/trim-both \a \a "abxba")  ; => "bxb"
+(sa/trim-both \a \a "aaxaa")  ; => "x"
+(sa/trim-both \1 \1 "1abc1")  ; => "abc"
+(sa/trim-both \a \z "axz")    ; => "x"
+(sa/trim-both \a \z "aaxzz")  ; => "x"
 ```
 
 ## Trimming once
 
-If you want to perform trimming just once, use [`trim-same-once`][api-trim-same-once]
-API function. It works the same way as `trim-same` but stops after first operation
+If you want to perform trimming just once, use [`trim-both-once`][api-trim-both-once]
+API function. It works the same way as `trim-both` but stops after first operation
 (if any):
 
 ```clojure
 (require '(smangler [api :as sa]))
 
-(sa/trim-same-once "abba")              ; => "bb"
-(sa/trim-same-once "some")              ; => "some"
-(sa/trim-same-once "barkrab")           ; => "arkra"
+(sa/trim-both-once             "abba")  ; => "bb"
+(sa/trim-both-once             "some")  ; => "some"
+(sa/trim-both-once          "barkrab")  ; => "arkra"
 
-(sa/trim-same-once "ab"     "barkrab")  ; => "arkra"
-(sa/trim-same-once #{\a \b} "barkrab")  ; => "arkra"
+(sa/trim-both-once "ab"     "barkrab")  ; => "arkra"
+(sa/trim-both-once #{\a \b} "barkrab")  ; => "arkra"
 
-(sa/trim-same-once \a \a   "aaxaa")     ; => "axa"
+(sa/trim-both-once \a \a      "aaxaa")     ; => "axa"
 ```
 
 ## Trimming once with preservation
 
 To make certain operations easy there is
-[`trim-same-once-with-orig`][api-trim-same-once-with-orig] function that returns
+[`trim-both-once-with-orig`][api-trim-both-once-with-orig] function that returns
 a sequence of 1 or 2 elements, the first being always an original string and the
 second being its trimmed version. If there is nothing to trim, only one element will
 be present in the resulting sequence:
@@ -144,34 +150,35 @@ be present in the resulting sequence:
 ```clojure
 (require '(smangler [api :as sa]))
 
-(sa/trim-same-once-with-orig "abba")              ; => ("abba", "bb")
-(sa/trim-same-once-with-orig "some")              ; => ("some")
-(sa/trim-same-once-with-orig "barkrab")           ; => ("barkrab" "arkra")
+(sa/trim-both-once-with-orig             "abba")  ; => ("abba", "bb")
+(sa/trim-both-once-with-orig             "some")  ; => ("some")
+(sa/trim-both-once-with-orig          "barkrab")  ; => ("barkrab" "arkra")
 
-(sa/trim-same-once-with-orig "ab"     "barkrab")  ; => ("barkrab" "arkra")
-(sa/trim-same-once-with-orig #{\a \b} "barkrab")  ; => ("barkrab" "arkra")
+(sa/trim-both-once-with-orig "ab"     "barkrab")  ; => ("barkrab" "arkra")
+(sa/trim-both-once-with-orig #{\a \b} "barkrab")  ; => ("barkrab" "arkra")
 
-(sa/trim-same-once-with-orig \a \a   "aaxaa")     ; => ("aaxaa" "axa")
+(sa/trim-both-once-with-orig \a \a      "aaxaa")  ; => ("aaxaa" "axa")
 ```
 
 ## Sequence of trimming
 
 If there is a need for keeping all subsequent steps of trimming you can use the
-function [`trim-same-seq`][api-trim-same-seq]. It works the same as `trim-same` but
+function [`trim-both-seq`][api-trim-both-seq]. It works the same as `trim-both` but
 returns a lazy sequence of strings, each being the result of next step of iterative
 trimming:
 
 ```clojure
 (require '(smangler [api :as sa]))
 
-(sa/trim-same-seq "abba")              ; => ("abba", "bb", "")
-(sa/trim-same-seq "some")              ; => ("some")
-(sa/trim-same-seq "barkrab")           ; => ("barkrab" "arkra" "rkr" "k")
+(sa/trim-both-seq                nil)  ; => nil
+(sa/trim-both-seq             "abba")  ; => ("abba", "bb", "")
+(sa/trim-both-seq             "some")  ; => ("some")
+(sa/trim-both-seq          "barkrab")  ; => ("barkrab" "arkra" "rkr" "k")
 
-(sa/trim-same-seq "ab"     "barkrab")  ; => ("barkrab" "arkra" "rkr")
-(sa/trim-same-seq #{\a \b} "barkrab")  ; => ("barkrab" "arkra" "rkr")
+(sa/trim-both-seq "ab"     "barkrab")  ; => ("barkrab" "arkra" "rkr")
+(sa/trim-both-seq #{\a \b} "barkrab")  ; => ("barkrab" "arkra" "rkr")
 
-(sa/trim-same-seq \a \a   "aaxaa")     ; => ("aaxaa" "axa" "x")
+(sa/trim-both-seq \a \a      "aaxaa")  ; => ("aaxaa" "axa" "x")
 ```
 
 ## Low-level trimming
@@ -179,19 +186,79 @@ trimming:
 Certain applications may require more efficient and/or more strict trimming
 functions. It is particularly not recommended but there is a [`smangler.core`][core]
 namespace that contains trimming operations that are a bit faster than those in API.
-They require certain argument types. Also the returned values may differ when it
-comes to handling corner cases (`nil` or empty values, not finding a match, etc.):
+They require certain argument types and no coercion is performed. The returned values
+may also differ when it comes to handling corner cases (`nil` or empty values, not
+finding a match, etc.):
 
-* [`trim-same`][core-trim-same],
-* [`trim-same-once`][core-trim-same-once].
+* [`trim-both`][core-trim-both],
+* [`trim-both-once`][core-trim-both-once].
 
+The function [`trim-both`][core-trim-both] from the namespace [`smangler.core`][core]
+takes a string as its last (or only) argument and trims it characters on both ends
+are the same:
 
+```clojure
+(require '(smangler [core :as c]))
+
+(c/trim-both     nil)  ; => nil
+(c/trim-both  "abcd")  ; => "abcd"
+(c/trim-both  "abca")  ; => "bc"
+(c/trim-both "aabaa")  ; => "b"
+```
+
+Optionally it can also take a matching function as a first argument. The function
+should take a character and return a character, `nil` or `false`. If a character
+passed as an argument to this matcher will be the first character of the passed
+string and if a value returned by this match will be equal to the last character of
+the passed string trimming will occur:
+
+```clojure
+(require '(smangler [core :as c]))
+
+(c/trim-both #{\a \b}             nil)  ; => nil
+(c/trim-both #{\a \b}          "abba")  ; => ""
+(c/trim-both #(and (= % \a) %) "abba")  ; => "bb"
+(c/trim-both {\a \z}           "abbz")  ; => "bb"
+```
+
+Similarly to its counterpart from `smangler.api` the function can handle 3
+arguments. In this case the first two should be characters matching the beginning and
+the end of a string:
+
+```clojure
+(require '(smangler [core :as c]))
+
+(c/trim-both \a \z    nil)  ; => nil
+(c/trim-both \a \z "abbz")  ; => "bb"
+```
+
+The function [`trim-both-once`][core-trim-both-once] from the namespace
+[`smangler.core`][core] works the same way as `trim-both` but trims the given string
+only once. However, it will return `nil` instead of the original string if there is
+nothing to trim:
+
+```clojure
+(require '(smangler [core :as c]))
+
+(c/trim-both-once nil)                   ; => nil
+(c/trim-both-once "")                    ; => nil
+(c/trim-both-once "aa")                  ; => ""
+(c/trim-both-once "abba")                ; => "bb"
+(c/trim-both-once "some")                ; => nil
+(c/trim-both-once "barkrab")             ; => "arkra"
+
+(c/trim-both-once (set "ab") "barkrab")  ; => "arkra"
+(c/trim-both-once #{\a \b}   "barkrab")  ; => "arkra"
+(c/trim-both-once (set "abcd")   "xyz")  ; => nil
+
+(c/trim-both-once \a \a        "aaxaa")  ; => "axa"
+```
 
 [api]:                          smangler.api.html
 [core]:                         smangler.core.html
-[api-trim-same]:                smangler.api.html#var-trim-same
-[api-trim-same-seq]:            smangler.api.html#var-trim-same-seq
-[api-trim-same-once]:           smangler.api.html#var-trim-same-once
-[api-trim-same-once-with-orig]: smangler.api.html#var-trim-same-once-with-orig
-[core-trim-same]:               smangler.core.html#var-trim-same
-[core-trim-same-once]:          smangler.core.html#var-trim-same-once
+[api-trim-both]:                smangler.api.html#var-trim-both
+[api-trim-both-seq]:            smangler.api.html#var-trim-both-seq
+[api-trim-both-once]:           smangler.api.html#var-trim-both-once
+[api-trim-both-once-with-orig]: smangler.api.html#var-trim-both-once-with-orig
+[core-trim-both]:               smangler.core.html#var-trim-both
+[core-trim-both-once]:          smangler.core.html#var-trim-both-once

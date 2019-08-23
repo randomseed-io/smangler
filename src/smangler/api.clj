@@ -12,79 +12,79 @@
             [smangler.proto  :refer        :all]
             [orchestra.core  :refer [defn-spec]]))
 
-(defn-spec trim-same ::s/phrase
+(defn-spec trim-both ::s/phrase
   "Takes a string and recursively trims its first and last character if they are equal.
   Returns a new string or nil when nil was passed as an argument instead of a
   string."
   {:added "1.0.0" :tag String}
 
   ([^String w ::s/stringable]
-   (sc/trim-same (->str w)))
+   (sc/trim-both (->str w)))
 
   ([^clojure.lang.IFn matcher ::s/char-matchable
     ^String w                 ::s/stringable]
-   (sc/trim-same (->character-matcher matcher) (->str w)))
+   (sc/trim-both (->character-matcher matcher) (->str w)))
 
   ([^Character start ::s/beginning-character
     ^Character   end ::s/ending-character
     ^String        w ::s/stringable]
-   (sc/trim-same start end (->str w))))
+   (sc/trim-both start end (->str w))))
 
-(defn-spec trim-same-once ::s/phrase
+(defn-spec trim-both-once ::s/phrase
   "Takes a string and trims its first and last character if they are equal.
   Returns a new string or original string if there is nothing to trim."
   {:added "1.0.0" :tag String}
 
   ([^String w ::s/stringable]
-   (some-or sc/trim-same-once (->str w)))
+   (some-or sc/trim-both-once (->str w)))
 
   ([^clojure.lang.IFn matcher ::s/char-matchable
     ^String w                 ::s/stringable]
-   (some-or sc/trim-same-once (->character-matcher matcher) (->str w)))
+   (some-or sc/trim-both-once (->character-matcher matcher) (->str w)))
 
   ([^Character start ::s/beginning-character
     ^Character   end ::s/ending-character
     ^String        w ::s/stringable]
-   (some-or sc/trim-same-once start end (->str w))))
+   (some-or sc/trim-both-once start end (->str w))))
 
-(defn-spec trim-same-seq ::s/lazy-seq-of-strings
+(defn-spec trim-both-seq ::s/lazy-seq-of-strings
   "Takes a string and recursively trims its first and last character if they are
   equal. Returns a lazy sequence of strings for each iteration."
   {:added "1.0.0" :tag clojure.lang.LazySeq}
 
   ([^String w ::s/stringable]
-   (part-caller-iterate sc/trim-same-once (->str w)))
+   (part-caller-iterate sc/trim-both-once (->str w)))
 
   ([^clojure.lang.IFn matcher ::s/char-matchable
     ^String                 w ::s/stringable]
-   (part-caller-iterate sc/trim-same-once (->character-matcher matcher) (->str w)))
+   (part-caller-iterate sc/trim-both-once (->character-matcher matcher) (->str w)))
 
   ([^Character start ::s/beginning-character
     ^Character   end ::s/ending-character
     ^String        w ::s/stringable]
-   (part-caller-iterate sc/trim-same-once start end (->str w))))
+   (part-caller-iterate sc/trim-both-once start end (->str w))))
 
-(defn-spec trim-same-once-with-orig ::s/one-or-two-strings
+(defn-spec trim-both-once-with-orig ::s/one-or-two-strings
   "Takes a string and trims its first and last character if they are equal.
   Returns a 2-element sequence containing a new string and the original one."
   {:added "1.0.0" :tag clojure.lang.LazySeq}
 
   ([^CharSequence w ::s/stringable]
    (when-some [w (->str w)]
-     (cons w (when-some [r (sc/trim-same-once w)]
+     (cons w (when-some [r (sc/trim-both-once w)]
                (cons r nil)))))
 
   ([^clojure.lang.IFn matcher ::s/char-matchable
     ^CharSequence           w ::s/stringable]
    (when-some [w (->str w)]
-     (cons w (when-some [r (sc/trim-same-once (->character-matcher matcher) w)]
+     (cons w (when-some [r (sc/trim-both-once (->character-matcher matcher) w)]
                (cons r nil)))))
 
   ([^Character start ::s/beginning-character
     ^Character   end ::s/ending-character
     ^CharSequence  w ::s/stringable]
    (when-some [w (->str w)]
-     (cons w (when-some [r (sc/trim-same-once start end w)]
+     (cons w (when-some [r (sc/trim-both-once start end w)]
                (cons r nil))))))
 
 (defn-spec all-prefixes ::s/lazy-seq-of-ne-strings
@@ -123,7 +123,7 @@
 
 ;; Extended documentation
 
-(defdoc! trim-same
+(defdoc! trim-both
   "Takes a string and recursively trims its first and last character if they are equal.
   Returns a new string or nil (when nil was passed as an argument instead of a
   string). For an empty string it returns an empty string.
@@ -157,7 +157,7 @@
 
   When the string consist of 2 matching letters the result will be an empty string.")
 
-(defdoc! trim-same-once
+(defdoc! trim-both-once
   "Takes a string and trims its first and last character if they are equal.
   Returns a new string or original string if there is nothing to trim. For nil it
   returns nil.
@@ -191,7 +191,7 @@
 
   When the string consist of 2 matching letters the result will be an empty string.")
 
-(defdoc! trim-same-seq
+(defdoc! trim-both-seq
   "Takes a string and recursively trims its first and last character if they are
   equal. Returns a lazy sequence of strings for each iteration. For nil it returns
   nil.
@@ -226,7 +226,7 @@
   When the last of the processed strings consist of 2 matching letters the resulting
   sequence will contain an empty string.")
 
-(defdoc! trim-same-once-with-orig
+(defdoc! trim-both-once-with-orig
   "Takes a string and trims its first and last character if they are equal.
   Returns a 2-element sequence containing a new string and the original one. If there
   is nothing to trim it returns a sequence with just 1 element. For nil it returns

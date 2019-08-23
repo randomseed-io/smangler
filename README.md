@@ -10,19 +10,19 @@ Another Clojure library for manipulating strings.
 (require [smangler.api :as s])
 
 ;; Trim the same letters from both ends.
-(s/trim-same "madam")
+(s/trim-both "madam")
 ; => "d"
 
 ;; Trim the same letters but only if they are 'm' or 'n'.
-(s/trim-same "mn" "madam")
+(s/trim-both "mn" "madam")
 ; => "ada"
 
 ;; Trim the same letters once.
-(s/trim-same-once "madam")
+(s/trim-both-once "madam")
 ; => "ada"
 
 ;; Trim the same letters and generate a result of each step.
-(s/trim-same-seq "madam")
+(s/trim-both-seq "madam")
 ; => ("madam" "ada" "d")
 ```
 

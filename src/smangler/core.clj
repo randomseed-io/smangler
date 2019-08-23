@@ -11,7 +11,7 @@
             [smangler.spec   :as               s]
             [smangler.util   :refer         :all]))
 
-(defn-spec trim-same-once ::s/phrase
+(defn-spec trim-both-once ::s/phrase
   "Takes a string and trims its first and last character if they are equal. Returns a
   string or nil."
   {:added "1.0.0" :tag java.lang.String}
@@ -34,7 +34,7 @@
      (when (and (> l 0) (= (.charAt p 0) start) (= (.charAt p l) end))
        (.. p (subSequence 1 l) toString)))))
 
-(defn-spec trim-same ::s/phrase
+(defn-spec trim-both ::s/phrase
   "Takes a string and recursively trims its first and last character if they are
   equal. Returns a string or nil."
   {:added "1.0.0" :tag java.lang.String}
@@ -145,7 +145,7 @@
 
 ;; Extended documentation
 
-(defdoc! trim-same-once
+(defdoc! trim-both-once
   "Takes a string and trims its first and last character if they are equal.
   Returns a new string or nil when there is nothing to trim or nil was passed
   as an argument instead of a string. For an empty string it also returns nil.
@@ -166,7 +166,7 @@
 
   When the string consist of 2 matching letters the result will be an empty string.")
 
-(defdoc! trim-same
+(defdoc! trim-both
   "Takes a string and recursively trims its first and last character if they are equal.
   Returns a new string or nil when nil was passed as an argument instead of a
   string. For an empty string it returns an empty string.
