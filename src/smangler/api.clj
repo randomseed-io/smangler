@@ -266,21 +266,20 @@
   "Generates a lazy sequence of all possible prefixes of a given string. Returns nil
   if nil or an empty string was given as an argument instead of a string.
 
-  Objects of the following types that are passed as a last argument are coerced to
+  Objects of the following types which are passed as a last argument are coerced to
   strings: characters, numbers, sequences of characters, collections of strings,
   collections of characters, collections of numbers. For collections it joins the
   elements converted to strings.
 
   The resulting sequence will contain the original string on its last position.
 
-  If two arguments are given the first one should be a predicate function used to
-  partition the given string. It should take a single character and if the returned
-  value is not nil nor false then all-prefixes will create a boundary (a place where
-  it can slice the string during generation of prefixes). Without this predicate each
-  character is such a boundary.
+  If two arguments are given the first one should be a function used to partition the
+  given string. It should take a single character and return an object. The given
+  string will be split whenever this function will return a new value. That way the
+  prefixes will be generated for parts of the string instead of separate characters.
 
-  Objects of the following types that are passed as a first argument of 2-arity
-  variant are coerced to a slicing predicate: characters, numbers, strings, sequences
+  Objects of the following types which are passed as a first argument of 2-arity
+  version are coerced to a slicing predicate: characters, numbers, strings, sequences
   of characters, collections of strings, collections of characters, collections of
   numbers. It splits them into single-character elements and creates a sets to be
   used as functions. In case of a single character it creates a small predicate
@@ -291,20 +290,19 @@
   "Generates a lazy sequence of all possible suffixes of a given string. Returns nil
   if nil or an empty string was given as an argument instead of a string.
 
-  Objects of the following types that are passed as a last argument are coerced to
+  Objects of the following types which are passed as a last argument are coerced to
   strings: characters, numbers, sequences of characters, collections of strings,
   collections of characters, collections of numbers. For collections it joins the
   elements converted to strings.
 
   The resulting sequence will contain the original string on its first position.
 
-  If two arguments are given the first one should be a predicate function used to
-  partition the given string. It should take a single character and if the returned
-  value is not nil nor false then all-suffixes will create a boundary (a place where
-  it can slice the string during generation of suffixes). Without this predicate each
-  character is such a boundary.
+  If two arguments are given the first one should be a function used to partition the
+  given string. It should take a single character and return an object. The given
+  string will be split whenever this function will return a new value. That way the
+  suffixes will be generated for parts of the string instead of separate characters.
 
-  Objects of the following types that are passed as a first argument of 2-arity
+  Objects of the following types which are passed as a first argument of 2-arity
   variant are coerced to a slicing predicate: characters, numbers, strings, sequences
   of characters, collections of strings, collections of characters, collections of
   numbers. It splits them into single-character elements and creates a sets to be
@@ -317,7 +315,7 @@
   infixes) of a given string. Returns nil if nil or an empty string was given as an
   argument instead of a string.
 
-  Objects of the following types that are passed as a last argument are coerced to
+  Objects of the following types which are passed as a last argument are coerced to
   strings: characters, numbers, sequences of characters, collections of strings,
   collections of characters, collections of numbers. For collections it joins the
   elements converted to strings.
@@ -326,13 +324,12 @@
   substrings will not be unique across the sequence if the characters are repeating
   in the input.
 
-  If two arguments are given the first one should be a predicate function used to
-  partition the given string. It should take a single character and if the returned
-  value is not nil nor false then all-subs will create a boundary (a place where it
-  can slice the string during generation of suffixes). Without this predicate each
-  character is such a boundary.
+  If two arguments are given the first one should be a function used to partition the
+  given string. It should take a single character and return an object. The given
+  string will be split whenever this function will return a new value. That way the
+  substrings will be generated for parts of the string instead of separate characters.
 
-  Objects of the following types that are passed as a first argument of 2-arity
+  Objects of the following types which are passed as a first argument of 2-arity
   variant are coerced to a slicing predicate: characters, numbers, strings, sequences
   of characters, collections of strings, collections of characters, collections of
   numbers. It splits them into single-character elements and creates a sets to be

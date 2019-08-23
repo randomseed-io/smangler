@@ -1,9 +1,9 @@
 # Trimming
 
-String trimming is handled by the API function [`trim-both`][api-trim-both] from the
-namespace [`smangler.api`][api]. In its single-argument version it trims a given
-string on both ends if the characters are the same. It repeats this operation until
-there is nothing to trim.
+Basic string trimming is handled by the API function [`trim-both`][api-trim-both]
+from the namespace [`smangler.api`][api]. In its single-argument version it trims
+a given string on both ends if the characters are the same. It repeats this operation
+until there is nothing to trim.
 
 ```clojure
 (require '(smangler [api :as sa]))
@@ -34,15 +34,15 @@ and numbers:
 ## Custom matcher
 
 Optionally, you can call `trim-both` with 2 arguments passed. In this scenario the
-first argument should be a function that takes a single character and returns either
+first argument should be a function which takes a single character and returns either
 some character, `nil` or `false`. This function, called the matcher, is used on
-a first character of a string to determine whether it should be removed (along with
-a last character):
+the first character of a string to determine whether it should be removed (along with
+the last character):
 
 ```clojure
 (fn [character]
-  (and (some-lookup character)  ; some-lookup should check if a character should be trimmed
-       character))              ; important to return the character for the matcher to work
+  (and (some-lookup character)  ; some-lookup checks if a character should be trimmed
+       character))              ; important to return the character, nil or false
 ```
 
 If the matcher returns `nil` or `false` then no trimming occurs. If the matcher
@@ -64,7 +64,7 @@ the trimmed string and if they're equal then trimming is performed.
 ### Sets as matchers
 
 It is common to use sets for matching the same characters on both ends. This is
-possible because in Clojure sets implement function interface that allows us to
+possible because in Clojure sets implement function interface which allows us to
 perform quick lookup:
 
 ```clojure
@@ -142,9 +142,9 @@ API function. It works the same way as `trim-both` but stops after first operati
 ## Trimming once with preservation
 
 To make certain operations easy there is
-[`trim-both-once-with-orig`][api-trim-both-once-with-orig] function that returns
-a sequence of 1 or 2 elements, the first being always an original string and the
-second being its trimmed version. If there is nothing to trim, only one element will
+[`trim-both-once-with-orig`][api-trim-both-once-with-orig] function which returns
+a sequence of 1 or 2 elements, the first being always the original string with the
+latter being its trimmed version. If there is nothing to trim, only one element will
 be present in the resulting sequence:
 
 ```clojure
@@ -160,7 +160,7 @@ be present in the resulting sequence:
 (sa/trim-both-once-with-orig \a \a      "aaxaa")  ; => ("aaxaa" "axa")
 ```
 
-## Sequence of trimming
+## Sequence of trimming steps
 
 If there is a need for keeping all subsequent steps of trimming you can use the
 function [`trim-both-seq`][api-trim-both-seq]. It works the same as `trim-both` but
@@ -185,7 +185,7 @@ trimming:
 
 Certain applications may require more efficient and/or more strict trimming
 functions. It is particularly not recommended but there is a [`smangler.core`][core]
-namespace that contains trimming operations that are a bit faster than those in API.
+namespace which contains trimming operations which are a bit faster than those in API.
 They require certain argument types and no coercion is performed. The returned values
 may also differ when it comes to handling corner cases (`nil` or empty values, not
 finding a match, etc.):
@@ -206,7 +206,7 @@ are the same:
 (c/trim-both "aabaa")  ; => "b"
 ```
 
-Optionally it can also take a matching function as a first argument. The function
+Optionally it can also take a matching function as the first argument. The function
 should take a character and return a character, `nil` or `false`. If a character
 passed as an argument to this matcher will be the first character of the passed
 string and if a value returned by this match will be equal to the last character of

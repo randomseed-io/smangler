@@ -193,11 +193,10 @@
 
   The resulting sequence will contain the whole string on its first position.
 
-  If two arguments are given the first one should be a predicate function used to
-  partition the given string. It should take a single character and if the returned
-  value is not nil nor false then all-suffixes will create a boundary (a place where
-  it can slice the string during generation of suffixes). Without this predicate each
-  character is such a boundary.")
+  If two arguments are given the first one should be a function used to partition the
+  given string. It should take a single character and return an object. The given
+  string will be split whenever this function will return new value. That way the
+  prefixes will be generated for parts of the string instead of separate characters.")
 
 (defdoc! all-prefixes
   "Generates a lazy sequence of all possible prefixes of a given string. Returns nil
@@ -210,11 +209,10 @@
 
   The resulting sequence will contain the whole string on its last position.
 
-  If two arguments are given the first one should be a predicate function used to
-  partition the given string. It should take a single character and if the returned
-  value is not nil nor false then all-prefixes will create a boundary (a place where
-  it can slice the string during generation of prefixes). Without this predicate each
-  character is such a boundary.")
+  If two arguments are given the first one should be a function used to partition the
+  given string. It should take a single character and return an object. The given
+  string will be split whenever this function will return new value. That way the
+  suffixes will be generated for parts of the string instead of separate characters.")
 
 (defdoc! all-subs
   "Generates a lazy sequence of all possible substrings (prefixes, suffixes and
@@ -225,8 +223,8 @@
   substrings will not be unique across the sequence if the characters are repeating
   in the input.
 
-  If two arguments are given the first one should be a predicate function used to
-  partition the given string. It should take a single character and if the returned
-  value is not nil nor false then all-subs will create a boundary (a place where it
-  can slice the string during generation of suffixes). Without this predicate each
-  character is such a boundary.")
+  If two arguments are given the first one should be a function used to partition the
+  given string. It should take a single character and return an object. The given
+  string will be split whenever this function will return new value. That way the
+  substrings will be generated for parts of the string instead of separate
+  characters.")
