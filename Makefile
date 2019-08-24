@@ -34,7 +34,6 @@ tag: pom.xml
 deploy:
 			@$(MAKE) clean
 			@$(MAKE) pom
-			@$(MAKE) tag
 			@$(MAKE) jar
 			@$(MAKE) sig
 			mvn deploy:deploy-file -Dfile=$(APPNAME).jar -DrepositoryId=clojars -Durl=https://clojars.org/repo -DpomFile=pom.xml
