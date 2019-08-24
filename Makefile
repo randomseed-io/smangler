@@ -1,5 +1,5 @@
 APPNAME = "smangler"
-VERSION = "1.0.0"
+VERSION = "1.0.1"
 
 .PHONY: 		watch default docs deploy test test-clj sig jar pom clean tag
 
@@ -7,6 +7,9 @@ default:		docs
 
 docs:
 			bin/docs
+
+push-docs:
+			git subtree push --prefix=docs docs master
 
 test-clj:
 			bin/test --no-profiling

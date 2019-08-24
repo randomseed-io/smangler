@@ -9,7 +9,7 @@ Splitting strings into substrings is realized by these 3 API functions:
 ## Getting all prefixes
 
 To get all possible prefixes of the given string you can call `all-prefixes` function
-from the API. In its basic form, it takes one argument that should be a string and
+from the API. In its basic form, it takes one argument which should be a string and
 returns a lazy sequence of strings, including the original string in the last
 position:
 
@@ -49,7 +49,7 @@ a character, `false` or `nil`:
 ```
 
 The function is used to partition the string. As a result the prefixes will not be
-generated for all characters but for those substrings that are the effect of
+generated for all characters but for those substrings which are the effect of
 splitting the string each time the splitter returns a new value.
 
 ```clojure
@@ -157,7 +157,7 @@ but returns all prefixes, infixes and suffixes, including the original string:
 ## Low-level splitting
 
 Certain applications may require more efficient and/or more strict splitting
-functions. It is particularly not recommended but there is a [`smangler.core`][core]
+functions. It is particularly not recommended but there is [`smangler.core`][core]
 namespace which contains splitting operations which are a bit faster than those in
 API. They require certain argument types and no coercion is performed:
 

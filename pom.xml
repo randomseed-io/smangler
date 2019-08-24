@@ -4,7 +4,7 @@
   <groupId>io.randomseed</groupId>
   <artifactId>smangler</artifactId>
   <packaging>jar</packaging>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <name>smangler</name>
   <description>String Mangling Library</description>
   <url>https://randomseed.io/software/smangler/</url>
@@ -17,7 +17,7 @@
   <scm>
     <connection>scm:git:git://github.com/randomseed-io/smangler.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/randomseed-io/smangler.git</developerConnection>
-    <tag>1.0.0</tag>
+    <tag>1.0.1</tag>
     <url>https://github.com/randomseed-io/smangler/</url>
   </scm>
   <dependencies>
@@ -44,6 +44,17 @@
   </dependencies>
   <build>
     <sourceDirectory>src</sourceDirectory>
+    <testSourceDirectory>test</testSourceDirectory>
+    <resources>
+      <resource>
+        <directory>resources</directory>
+      </resource>
+    </resources>
+    <testResources>
+      <testResource>
+        <directory>resources</directory>
+      </testResource>
+    </testResources>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

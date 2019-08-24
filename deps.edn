@@ -64,7 +64,7 @@
          :description "String mangling library for Clojure"
          :license     "Copyright"
          :package     io.randomseed/smangler
-         :version     "1.0.0"
+         :version     "1.0.1"
          :output-path "docs"
          :source-uri "https://github.com/randomseed-io/smangler/blob/{version}/{filepath}#L{line}"
          :metadata {:doc/format :markdown}
