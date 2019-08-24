@@ -6,7 +6,7 @@ a given string on both ends if the characters are the same. It repeats this ope
 until there is nothing to trim.
 
 ```clojure
-(require '(smangler [api :as sa]))
+(require '[smangler.api :as sa])
 
 (sa/trim-both "abba")     ; => ""
 (sa/trim-both "some")     ; => "some"
@@ -20,7 +20,7 @@ characters and numbers are supported, and so are collections of strings, charact
 and numbers:
 
 ```clojure
-(require '(smangler [api :as sa]))
+(require '[smangler.api :as sa])
 
 (sa/trim-both 1111)          ; => ""
 (sa/trim-both 12345)         ; => "12345"
@@ -50,7 +50,7 @@ returns a character it is compared by `trim-both` with the right-most character
 the trimmed string and if they're equal then trimming is performed.
 
 ```clojure
-(require '(smangler [api :as sa]))
+(require '[smangler.api :as sa])
 
 ;; Only 'a' will be trimmed since the matcher
 ;; checks if it is this letter.
@@ -68,7 +68,7 @@ possible because in Clojure sets implement function interface which allows us to
 perform quick lookup:
 
 ```clojure
-(require '(smangler [api :as sa]))
+(require '[smangler.api :as sa])
 
 (sa/trim-both #{\a \b} "abxba")  ; => "x"
 (sa/trim-both #{\a}    "abxba")  ; => "bxb"
@@ -81,7 +81,7 @@ they also implement function interface. That will allow us to match both ends of
 a string in an easy way:
 
 ```clojure
-(require '(smangler [api :as sa]))
+(require '[smangler.api :as sa])
 
 (sa/trim-both {\a \a} "abxba")  ; => "bxb"
 (sa/trim-both {\a \z} "abcdz")  ; => "bcd"
@@ -94,7 +94,7 @@ characters, strings and numbers are supported, and so are collections of strings
 characters and numbers:
 
 ```clojure
-(require '(smangler [api :as sa]))
+(require '[smangler.api :as sa])
 
 (sa/trim-both \a        "abxba")  ; => "bxb"
 (sa/trim-both 1         "1abc1")  ; => "abc"
@@ -111,7 +111,7 @@ given characters must match first and last characters of the string for trimming
 be performed:
 
 ```clojure
-(require '(smangler [api :as sa]))
+(require '[smangler.api :as sa])
 
 (sa/trim-both \a \a "abxba")  ; => "bxb"
 (sa/trim-both \a \a "aaxaa")  ; => "x"
@@ -127,7 +127,7 @@ API function. It works the same way as `trim-both` but stops after first operati
 (if any):
 
 ```clojure
-(require '(smangler [api :as sa]))
+(require '[smangler.api :as sa])
 
 (sa/trim-both-once             "abba")  ; => "bb"
 (sa/trim-both-once             "some")  ; => "some"
@@ -148,7 +148,7 @@ latter being its trimmed version. If there is nothing to trim, only one element 
 be present in the resulting sequence:
 
 ```clojure
-(require '(smangler [api :as sa]))
+(require '[smangler.api :as sa])
 
 (sa/trim-both-once-with-orig             "abba")  ; => ("abba", "bb")
 (sa/trim-both-once-with-orig             "some")  ; => ("some")
@@ -168,7 +168,7 @@ returns a lazy sequence of strings, each being the result of next step of itera
 trimming:
 
 ```clojure
-(require '(smangler [api :as sa]))
+(require '[smangler.api :as sa])
 
 (sa/trim-both-seq                nil)  ; => nil
 (sa/trim-both-seq             "abba")  ; => ("abba", "bb", "")
@@ -194,11 +194,11 @@ finding a match, etc.):
 * [`trim-both-once`][core-trim-both-once].
 
 The function [`trim-both`][core-trim-both] from the namespace [`smangler.core`][core]
-takes a string as its last (or only) argument and trims it characters on both ends
+takes a string as its last (or only) argument and trims its characters on both ends
 are the same:
 
 ```clojure
-(require '(smangler [core :as c]))
+(require '[smangler.core :as c])
 
 (c/trim-both     nil)  ; => nil
 (c/trim-both  "abcd")  ; => "abcd"
@@ -213,7 +213,7 @@ string and if a value returned by this match will be equal to the last character
 the passed string trimming will occur:
 
 ```clojure
-(require '(smangler [core :as c]))
+(require '[smangler.core :as c])
 
 (c/trim-both #{\a \b}             nil)  ; => nil
 (c/trim-both #{\a \b}          "abba")  ; => ""
@@ -226,7 +226,7 @@ arguments. In this case the first two should be characters matching the beginnin
 the end of a string:
 
 ```clojure
-(require '(smangler [core :as c]))
+(require '[smangler.core :as c])
 
 (c/trim-both \a \z    nil)  ; => nil
 (c/trim-both \a \z "abbz")  ; => "bb"
@@ -238,7 +238,7 @@ only once. However, it will return `nil` instead of the original string if there
 nothing to trim:
 
 ```clojure
-(require '(smangler [core :as c]))
+(require '[smangler.core :as c])
 
 (c/trim-both-once nil)                   ; => nil
 (c/trim-both-once "")                    ; => nil

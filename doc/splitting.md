@@ -1,6 +1,6 @@
 # Splitting
 
-Splitting strings into substrings is realized by 3 API functions:
+Splitting strings into substrings is realized by these 3 API functions:
 
 * [`all-prefixes`][api-all-prefixes],
 * [`all-suffixes`][api-all-suffixes]
@@ -14,7 +14,7 @@ returns a lazy sequence of strings, including the original string in the last
 position:
 
 ```clojure
-(require '(smangler [api :as sa]))
+(require '[smangler.api :as sa])
 
 (sa/all-prefixes       "")  ; => nil
 (sa/all-prefixes "abcdef")  ; => ("a" "ab" "abc" "abcd" "abcde" "abcdef")
@@ -28,7 +28,7 @@ characters and numbers are supported, and so are collections of strings, charact
 and numbers:
 
 ```clojure
-(require '(smangler [api :as sa]))
+(require '[smangler.api :as sa])
 
 (sa/all-prefixes        12345)  ; => ("1" "12" "123" "1234" "12345")
 (sa/all-prefixes           \a)  ; => ("a")
@@ -53,10 +53,10 @@ generated for all characters but for those substrings that are the effect of
 splitting the string each time the splitter returns a new value.
 
 ```clojure
-(require '(smangler [api :as sa]))
+(require '[smangler.api :as sa])
 
-  (sa/all-prefixes #(and (= \a %) %)
-                   "abcdef")  ; => ("a" "abcdef")
+(sa/all-prefixes #(and (= \a %) %)
+                 "abcdef")  ; => ("a" "abcdef")
 ```
 
 ### Sets as splitters
@@ -65,7 +65,7 @@ It is common to use sets for partitioning the string. This is possible because i
 Clojure sets implement function interface which allows us to perform quick lookup:
 
 ```clojure
-(require '(smangler [api :as sa]))
+(require '[smangler.api :as sa])
 
 (sa/all-prefixes #{\a \b} "abcdef")  ; => ("a" "ab" "abcdef")
 (sa/all-prefixes #{\a}    "abcdef")  ; => ("a" abcdef")
@@ -78,7 +78,7 @@ characters, strings and numbers are supported, and so are collections of strings
 characters and numbers:
 
 ```clojure
-(require '(smangler [api :as sa]))
+(require '[smangler.api :as sa])
 
 (sa/all-prefixes \a        "abcde")  ; => ("a" "abcde")
 (sa/all-prefixes 1         "abcde")  ; => ("abcde")
@@ -95,7 +95,7 @@ the same arguments and returns the same kind of values as `all-prefixes` but (as
 name stands for) generates all possible suffixes for the given string:
 
 ```clojure
-(require '(smangler [api :as sa]))
+(require '[smangler.api :as sa])
 
 (sa/all-suffixes                "")  ; => nil
 (sa/all-suffixes          "abcdef")  ; => ("abcdef" "bcdef" "cdef" "def" "ef" "f")
@@ -128,7 +128,7 @@ from [`smangler.api`][api]. It works similarly to `all-prefixes` and `all-suffix
 but returns all prefixes, infixes and suffixes, including the original string:
 
 ```clojure
-(require '(smangler [api :as sa]))
+(require '[smangler.api :as sa])
 
 (sa/all-subs                "")  ; => nil
 (sa/all-subs             "abc")  ; => ("a" "ab" "b" "abc" "bc" "c")
@@ -154,6 +154,35 @@ but returns all prefixes, infixes and suffixes, including the original string:
 (sa/all-subs "ab"        "abc")  ; => ("a" "ab" "b" "abc" "bc" "c")
 ```
 
+## Low-level splitting
+
+Certain applications may require more efficient and/or more strict splitting
+functions. It is particularly not recommended but there is a [`smangler.core`][core]
+namespace which contains splitting operations which are a bit faster than those in
+API. They require certain argument types and no coercion is performed:
+
+* [`all-prefixes`][core-all-prefixes],
+* [`all-suffixes`][core-all-suffixes]
+* [`all-subs`][core-all-subs].
+
+```clojure
+(require '[smangler.core :as c])
+
+(c/all-prefixes          nil)  ; => nil
+(c/all-prefixes           "")  ; => nil
+(c/all-prefixes        "abc")  ; => ("a" "ab" "abc")
+(c/all-prefixes  #{\a} "abc")  ; => ("a" "abc")
+
+(c/all-suffixes          nil)  ; => nil
+(c/all-suffixes           "")  ; => nil
+(c/all-suffixes        "abc")  ; => ("abc" "bc" "c")
+(c/all-suffixes  #{\a} "abc")  ; => ("abc" "bc")
+
+(c/all-subs              nil)  ; => nil
+(c/all-subs               "")  ; => nil
+(c/all-subs            "abc")  ; => ("a" "ab" "b" "abc" "bc" "c")
+(c/all-subs      #{\a} "abc")  ; => ("a" "abc" "bc")
+```
 
 [api]:                          smangler.api.html
 [core]:                         smangler.core.html
@@ -166,3 +195,6 @@ but returns all prefixes, infixes and suffixes, including the original string:
 [api-trim-both-once-with-orig]: smangler.api.html#var-trim-both-once-with-orig
 [core-trim-both]:               smangler.core.html#var-trim-both
 [core-trim-both-once]:          smangler.core.html#var-trim-both-once
+[core-all-suffixes]:            smangler.core.html#var-all-suffixes
+[core-all-prefixes]:            smangler.core.html#var-all-prefixes
+[core-all-subs]:                smangler.core.html#var-all-subs

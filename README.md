@@ -7,7 +7,7 @@ Another Clojure library for manipulating strings.
 * It **trims** the same or different characters from both ends of a string:
 
 ```clojure
-(require [smangler.api :as s])
+(require '[smangler.api :as s])
 
 ;; Trim the same letters from both ends.
 (s/trim-both "madam")
@@ -29,7 +29,7 @@ Another Clojure library for manipulating strings.
 * It generates all **prefixes** and **suffixes** of a string:
 
 ```clojure
-(require [smangler.api :as s])
+(require '[smangler.api :as s])
 
 ;; Generate all prefixes.
 (s/all-prefixes "madam")
@@ -51,7 +51,7 @@ Another Clojure library for manipulating strings.
 * It generates all possible prefixes, infixes and suffixes (**substrings**) of a string:
 
 ```clojure
-(require [smangler.api :as s])
+(require '[smangler.api :as s])
 
 ;; Generate all prefixes, suffixes and infixes.
 (s/all-subs "abcd")
