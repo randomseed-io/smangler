@@ -1,5 +1,5 @@
 APPNAME = "smangler"
-VERSION = "1.0.1"
+VERSION = "1.0.2"
 
 .PHONY: 		watch default docs deploy test test-clj sig jar pom clean tag
 
@@ -38,8 +38,7 @@ deploy:
 			@$(MAKE) clean
 			@$(MAKE) pom
 			@$(MAKE) jar
-			@$(MAKE) sig
-			mvn deploy:deploy-file -Dfile=$(APPNAME).jar -DrepositoryId=clojars -Durl=https://clojars.org/repo -DpomFile=pom.xml
+			mvn gpg:sign-and-deploy-file -Dfile=$(APPNAME).jar -DrepositoryId=clojars -Durl=https://clojars.org/repo -DpomFile=pom.xml
 
 clean:
 			rm -f $(APPNAME).jar pom.xml.asc
