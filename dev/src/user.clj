@@ -8,7 +8,6 @@
    [kaocha.repl                  :as               kr]
    [orchestra.spec.test          :as               ot]
    [expound.alpha                :as               ex]
-   [specviz.core                 :as          specviz]
    [clojure.repl                 :refer          :all]
    [clojure.tools.namespace.repl :refer [refresh
                                          refresh-all]]

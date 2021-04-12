@@ -1,5 +1,5 @@
 APPNAME = "smangler"
-VERSION = "1.0.2"
+VERSION = "1.0.3"
 
 .PHONY: 		watch default docs deploy test test-clj sig jar pom clean tag
 

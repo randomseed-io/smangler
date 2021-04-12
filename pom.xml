@@ -4,7 +4,7 @@
   <groupId>io.randomseed</groupId>
   <artifactId>smangler</artifactId>
   <packaging>jar</packaging>
-  <version>1.0.2</version>
+  <version>1.0.3</version>
   <name>smangler</name>
   <description>String Mangling Library</description>
   <url>https://randomseed.io/software/smangler/</url>
@@ -17,29 +17,34 @@
   <scm>
     <connection>scm:git:git://github.com/randomseed-io/smangler.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/randomseed-io/smangler.git</developerConnection>
-    <tag>1.0.2</tag>
+    <tag>1.0.3</tag>
     <url>https://github.com/randomseed-io/smangler/</url>
   </scm>
   <dependencies>
     <dependency>
       <groupId>org.clojure</groupId>
       <artifactId>clojure</artifactId>
-      <version>1.10.1</version>
+      <version>1.10.2</version>
     </dependency>
     <dependency>
       <groupId>org.clojure</groupId>
       <artifactId>spec.alpha</artifactId>
-      <version>0.2.176</version>
+      <version>0.2.194</version>
+    </dependency>
+    <dependency>
+      <groupId>org.clojure</groupId>
+      <artifactId>test.check</artifactId>
+      <version>1.1.0</version>
     </dependency>
     <dependency>
       <groupId>orchestra</groupId>
       <artifactId>orchestra</artifactId>
-      <version>2019.02.06-1</version>
+      <version>2021.01.01-1</version>
     </dependency>
     <dependency>
       <groupId>expound</groupId>
       <artifactId>expound</artifactId>
-      <version>0.7.2</version>
+      <version>0.8.7</version>
     </dependency>
   </dependencies>
   <build>

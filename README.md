@@ -78,14 +78,14 @@ To use smangler in your project, add the following to dependencies section of
 `project.clj` or `build.boot`:
 
 ```clojure
-[io.randomseed/smangler "1.0.2"]
+[io.randomseed/smangler "1.0.3"]
 ```
 
 For `deps.edn` add the following as an element of a map under `:deps` or
 `:extra-deps` key:
 
 ```clojure
-io.randomseed/smangler {:mvn/version "1.0.2"}
+io.randomseed/smangler {:mvn/version "1.0.3"}
 ```
 
 You can also download JAR from [Clojars](https://clojars.org/io.randomseed/smangler).
