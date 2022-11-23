@@ -4,7 +4,7 @@
   <groupId>io.randomseed</groupId>
   <artifactId>smangler</artifactId>
   <packaging>jar</packaging>
-  <version>1.0.3</version>
+  <version>1.0.4</version>
   <name>smangler</name>
   <description>String Mangling Library</description>
   <url>https://randomseed.io/software/smangler/</url>
@@ -17,24 +17,39 @@
   <scm>
     <connection>scm:git:git://github.com/randomseed-io/smangler.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/randomseed-io/smangler.git</developerConnection>
-    <tag>1.0.3</tag>
+    <tag>1.0.4</tag>
     <url>https://github.com/randomseed-io/smangler/</url>
   </scm>
+  <developers>
+    <developer>
+      <id>siefca</id>
+      <name>Paweł Wilk</name>
+      <email>pw@gnu.org</email>
+      <organization>random:seed</organization>
+      <organizationUrl>https://randomseed.pl/</organizationUrl>
+      <roles>
+        <role>author</role>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+      <timezone>Europe/Warsaw</timezone>
+    </developer>
+  </developers>
   <dependencies>
     <dependency>
       <groupId>org.clojure</groupId>
       <artifactId>clojure</artifactId>
-      <version>1.10.2</version>
+      <version>1.11.1</version>
     </dependency>
     <dependency>
       <groupId>org.clojure</groupId>
       <artifactId>spec.alpha</artifactId>
-      <version>0.2.194</version>
+      <version>0.3.218</version>
     </dependency>
     <dependency>
       <groupId>org.clojure</groupId>
       <artifactId>test.check</artifactId>
-      <version>1.1.0</version>
+      <version>1.1.1</version>
     </dependency>
     <dependency>
       <groupId>orchestra</groupId>
@@ -44,7 +59,7 @@
     <dependency>
       <groupId>expound</groupId>
       <artifactId>expound</artifactId>
-      <version>0.8.7</version>
+      <version>0.9.0</version>
     </dependency>
   </dependencies>
   <build>

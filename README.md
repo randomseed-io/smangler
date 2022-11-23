@@ -79,14 +79,14 @@ To use smangler in your project, add the following to dependencies section of
 `project.clj` or `build.boot`:
 
 ```clojure
-[io.randomseed/smangler "1.0.3"]
+[io.randomseed/smangler "1.0.4"]
 ```
 
 For `deps.edn` add the following as an element of a map under `:deps` or
 `:extra-deps` key:
 
 ```clojure
-io.randomseed/smangler {:mvn/version "1.0.3"}
+io.randomseed/smangler {:mvn/version "1.0.4"}
 ```
 
 You can also download JAR from [Clojars](https://clojars.org/io.randomseed/smangler).
@@ -99,7 +99,7 @@ Full documentation including usage examples is available at:
 
 ## License
 
-Copyright © 2019 Paweł Wilk
+Copyright © 2019-2022 Paweł Wilk
 
 Smangler is copyrighted software owned by Paweł Wilk (pw@gnu.org). You may
 redistribute and/or modify this software as long as you comply with the terms of

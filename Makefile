@@ -1,5 +1,5 @@
 APPNAME = "smangler"
-VERSION = "1.0.3"
+VERSION = "1.0.4"
 
 .PHONY: 		watch default docs deploy test test-clj sig jar pom clean tag
 
@@ -19,7 +19,7 @@ test:
 
 pom: pom.xml
 			clojure -Spom && awk 'NF > 0' pom.xml > pom.new.xml && mv -f pom.new.xml pom.xml
-			mvn versions:set versions:commit -DnewVersion="$(VERSION)"
+			mvn versions:set versions:commit -DnewVersion="$(VERSION)" versions:set-scm-tag -DnewTag="$(VERSION)"
 			rm -f pom.xml.asc
 
 $(APPNAME).jar: pom.xml
