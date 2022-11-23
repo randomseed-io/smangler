@@ -1,6 +1,7 @@
 # smangler – String Mangling Library
 
 [![Smangler on Clojars](https://img.shields.io/clojars/v/io.randomseed/smangler.svg)](https://clojars.org/io.randomseed/smangler)
+[![Smangler on cljdoc](https://cljdoc.org/badge/io.randomseed/smangler)](https://cljdoc.org/d/io.randomseed/smangler/CURRENT)
 
 Another Clojure library for manipulating strings.
 
