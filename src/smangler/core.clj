@@ -18,20 +18,24 @@
 
   ([^CharSequence p ::s/phrase]
    (when-let [l (and (seq p) (unchecked-dec (.length p)))]
-     (when (and (> l 0) (= (.charAt p 0) (.charAt p l)))
+     (when (and (> l 0) (= ^Character (.charAt p 0) ^Character (.charAt p l)))
        (.. p (subSequence 1 l) toString))))
 
   ([^clojure.lang.IFn matcher ::s/char-matcher
-    ^java.lang.CharSequence p ::s/phrase]
+    ^CharSequence           p ::s/phrase]
    (when-let [l (and (seq p) (unchecked-dec (.length p)))]
-     (when (and (> l 0) (= (matcher (.charAt p 0)) (.charAt p l)))
+     (when (and (> l 0)
+                (= (matcher ^Character (.charAt p 0))
+                   ^Character (.charAt p l)))
        (.. p (subSequence 1 l) toString))))
 
-  ([^java.lang.Character start ::s/beginning-character
-    ^java.lang.Character   end ::s/ending-character
-    ^java.lang.CharSequence  p ::s/phrase]
+  ([^Character  start ::s/beginning-character
+    ^Character    end ::s/ending-character
+    ^CharSequence   p ::s/phrase]
    (when-let [l (and (seq p) (unchecked-dec (.length p)))]
-     (when (and (> l 0) (= (.charAt p 0) start) (= (.charAt p l) end))
+     (when (and (> l 0)
+                (=  ^Character (.charAt p 0)  ^Character start)
+                (=  ^Character (.charAt p l)  ^Character end))
        (.. p (subSequence 1 l) toString)))))
 
 (defn-spec trim-both ::s/phrase
@@ -41,26 +45,27 @@
 
   ([^CharSequence p ::s/phrase]
    (when p
-     (loop [l ^int (unchecked-int 0)
-            r ^int (unchecked-dec-int (unchecked-int (.length p)))]
+     (loop [l (unchecked-int 0)
+            r (unchecked-dec-int (unchecked-int (.length p)))]
        (if (>= l r)
          (if (= l r)
-           (.. p (charAt l) toString)
+           (.toString ^Character (.charAt p l))
            "")
-         (if (= (.charAt p l) (.charAt p r))
+         (if (=  ^Character (.charAt p l)  ^Character (.charAt p r))
            (recur (unchecked-inc-int l) (unchecked-dec-int r))
            (.. p (subSequence l (unchecked-inc-int r)) toString))))))
 
   ([^clojure.lang.IFn matcher ::s/char-matcher
     ^CharSequence           p ::s/phrase]
    (when p
-     (loop [l ^int (unchecked-int 0)
-            r ^int (unchecked-dec-int (unchecked-int (.length p)))]
+     (loop [l (unchecked-int 0)
+            r (unchecked-dec-int (unchecked-int (.length p)))]
        (if (>= l r)
          (if (= l r)
-           (.. p (charAt l) toString)
+           (.toString ^Character (.charAt p l))
            "")
-         (if (= (matcher (.charAt p l)) (.charAt p r))
+         (if (= (matcher ^Character (.charAt p l))
+                ^Character (.charAt p r))
            (recur (unchecked-inc-int l) (unchecked-dec-int r))
            (.. p (subSequence l (unchecked-inc-int r)) toString))))))
 
@@ -68,13 +73,14 @@
     ^Character        end ::s/ending-character
     ^CharSequence       p ::s/phrase]
    (when p
-     (loop [l ^int (unchecked-int 0)
-            r ^int (unchecked-dec-int (unchecked-int (.length p)))]
+     (loop [l (unchecked-int 0)
+            r (unchecked-dec-int (unchecked-int (.length p)))]
        (if (>= l r)
          (if (= l r)
-           (.. p (charAt l) toString)
+           (.toString ^Character (.charAt p l))
            "")
-         (if (and (= (.charAt p l) start) (= (.charAt p r) end))
+         (if (and (=  ^Character (.charAt p l) ^Character start)
+                  (=  ^Character (.charAt p r) ^Character end))
            (recur (unchecked-inc-int l) (unchecked-dec-int r))
            (.. p (subSequence l (unchecked-inc-int r)) toString)))))))
 
